@@ -63,17 +63,16 @@ param.put("pageSize", pageSize);
 String pagingImg = PagingUtil.paginBS4(totalRecordCount, pageSize, blockPage, nowPage, "../DataRoom/DataList?" + addQueryString);
 param.put("pagingImg", pagingImg);
 
-List<Multi_boardDTO> listsNotice = dao.selectListPageNotice(param); //페이지 처리 o
+List<Multi_boardDTO> listsBoard = dao.selectListBoard(); //페이지 처리 o
 
 //DB연결을 헤제하는 것이 아니라 커넥션풀에 개체를 반납한다.
 dao.close();
 
 //데이터를 request영역에 저장한다.
-request.setAttribute("listsNotice", listsNotice);
+request.setAttribute("listsBoard", listsBoard);
 request.setAttribute("map", param);
 
 %>
-
 
  <body>
 	<center>
@@ -88,8 +87,8 @@ request.setAttribute("map", param);
 			</div>
 			<div class="right_contents">
 				<div class="top_title">
-					<img src="../images/space/sub01_title.gif" alt="공지사항" class="con_title" />
-					<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;공지사항<p>
+					<img src="../images/space/sub03_title.gif" alt="자유게시판" class="con_title" />
+					<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;자유게시판<p>
 				</div>
 				<div>
 
@@ -140,19 +139,19 @@ request.setAttribute("map", param);
 	
 	<tbody>
 	<c:choose>
-		<c:when test="${empty listsNotice }">
+		<c:when test="${empty listsBoard }">
 			<tr>
 				<td colspan="6" align="center" height="100">등록된 게시물이
 					없습니다.</td>
 			</tr>
 		</c:when>
 		<c:otherwise>
-			<c:forEach items="${listsNotice }" var="row" varStatus="loop">
+			<c:forEach items="${listsBoard }" var="row" varStatus="loop">
 	<!-- 리스트반복 -->
 	
 	<tr>
 		<td class="text-center">${map.totalCount - (((map.nowPage-1) * map.pageSize) + loop.index) }</td>
-		<td class="text-left"><a href="sub01_view.jsp?num=${row.num }&nowPage=${map.nowPage}&Field=${map.Field}&keyString=${map.keyString}">${row.title }</a></td>
+		<td class="text-left"><a href="sub03_view.jsp?num=${row.num }">${row.title }</a></td>
 		<td class="text-center">${row.id }</td>
 		<td class="text-center">${row.postdate }</td>
 		<td class="text-center">${row.visitcount }</td>
