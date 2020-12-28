@@ -16,7 +16,55 @@
 @import url("../css/sub.css");
 </style>
 </head>
-
+<script>
+	$(function() {
+		
+		$('#nextbtn').onclick(function(){
+			$.ajax({
+				//요청할 서버의 경로 url
+				url : "../common/02PrintToday.jsp",
+				//콜백데이터 타입
+				dataType : "html",
+				//요청시 전송방식
+				type : "get",
+				//전송방식에 따른 컨텐츠 타입
+				contentType : "text/html;charset:utf-8",
+				//파라미터. JSON형식
+				//성공, 실패시 콜백메소드, sucFunc(매개변수)형태로 사용하지 않는다.
+				success : sucFunc,
+				error : errFunc
+			});
+		});		
+		
+		//한글화
+		$("#datepicker6").datepicker(
+			{
+				"dateFormat" : "yy-mm-dd", //날짜형식
+				monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월',
+						'8월', '9월', '10월', '11월', '12월' ],
+				monthNamesShort : [ '1월', '2월', '3월', '4월', '5월', '6월',
+						'7월', '8월', '9월', '10월', '11월', '12월' ],
+				dayNames : [ '일', '월', '화', '수', '목', '금', '토' ],
+				dayNamesShort : [ '일', '월', '화', '수', '목', '금', '토' ],
+				dayNamesMin : [ '일', '월', '화', '수', '목', '금', '토' ],
+				showMonthAfterYear : true, //년/월 순서변경 
+				yearSuffix : '년',
+				isRTL : false, //true선택시 날짜 정렬 뒤집어짐        
+		});
+	});
+	
+	function sucFunc(resData) {
+		$()
+	}
+	/*
+		요청 성공시 호출할 콜백메소드로 jQuery외부에 정의되었다.
+		함수명만으로 지정하더라도 콜백데이터는 파라미터로 전달받을 수
+		있다. 
+	 */
+	function errFunc() {
+		alert("에러발생, 디버깅 하시세요")
+	}
+</script>
 <body>	
 <center>
 	<div id="wrap">
@@ -170,9 +218,11 @@
 				<p class="main_title"><img src="../images/main_title04.gif" alt="월간일정 CALENDAR" /></p>
 				<img src="../images/main_tel.gif" />
 			</div>
+			
 			<div class="main_con_center">
 				<p class="main_title" style="border:0px; margin-bottom:0px;"><img src="../images/main_title05.gif" alt="월간일정 CALENDAR" /></p>
-				<div class="cal_top">
+			<!--  
+				<div class="cal_top" >
 					<table cellpadding="0" cellspacing="0" border="0">
 						<colgroup>
 							<col width="13px;" />
@@ -182,12 +232,12 @@
 						<tr>
 							<td><a href=""><img src="../images/cal_a01.gif" style="margin-top:3px;" /></a></td>
 							<td><img src="../images/calender_2012.gif" />&nbsp;&nbsp;<img src="../images/calender_m1.gif" /></td>
-							<td><a href=""><img src="../images/cal_a02.gif" style="margin-top:3px;" /></a></td>
+							<td><a href=""><img id="nextbtn" src="../images/cal_a02.gif" style="margin-top:3px;" /></a></td>
 						</tr>
 					</table>
 				</div>
 				<div class="cal_bottom">
-					<table cellpadding="0" cellspacing="0" border="0" class="calendar">
+					  <table cellpadding="0" cellspacing="0" border="0" class="calendar">
 						<colgroup>
 							<col width="14%" />
 							<col width="14%" />
@@ -260,8 +310,8 @@
 							<td><a href="">&nbsp;</a></td>
 							<td><a href="">&nbsp;</a></td>
 						</tr>
-					</table>
-				</div>
+					</table> 
+				</div>-->
 			</div>
 			<div class="main_con_right">
 				<p class="main_title"><img src="../images/main_title06.gif" alt="사진게시판 PHOTO BOARD" /><a href="/space/sub04.jsp"><img src="../images/more.gif" alt="more" class="more_btn" /></a></p>
