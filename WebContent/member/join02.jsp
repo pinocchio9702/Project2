@@ -1,7 +1,36 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../include/global_head.jsp" %>
+<script>
+function id_check_person(){
+    var id = document.getElementsByName("id")[0];
+    
+    // if(id.length < 8 || id.length > 12){
+    //     alert("아이디는 8자에서 12자 사이로 구성해 주세요");
+    //     document.getElementsByName("userid")[0].value ="";
+        
+    // }
+	
+    if(id.value == ""){
+    	alert("아이디를 입력해주세요");
+    	return
+    }
 
+    var s_width = window.screen.width;
+    var s_height = window.screen.height;
+
+    var leftVar = s_width/2 - 300/2;
+    var topVar = s_height/2 - 300/2;
+
+    console.log(id);
+    
+    id.readOnly = true;
+
+    window.open("idCheck.jsp?id="+id.value,"idcheck","width=300, height=80, left=" + leftVar + ", top=" + topVar);
+
+    
+}
+</script>
  <body>
 	<center>
 	<div id="wrap">

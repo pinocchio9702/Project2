@@ -1,8 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../include/global_head.jsp" %>
-
-
+<script>
+function check(){
+	var check = document.getElementsByTagName("input")[0];
+	if(check.checked == false){
+		alert("이용약관에 동의하세요");
+	}
+	else{
+		location.href = "join02.jsp";
+	}
+}
+</script>
  <body>
 	<center>
 	<div id="wrap">
@@ -479,7 +488,7 @@
 
 				<p style="text-align:center; margin-bottom:20px;"><input type="checkbox" name="agreement1" value="">이용약관과 개인정보취급방침에 동의합니다.</p>
 
-				<p style="text-align:center; margin-bottom:20px"><a href="join02.jsp"><img src="../images/btn01.gif" /></a>&nbsp;&nbsp;<a href="#"><img src="../images/btn02.gif" /></a></p>
+				<p style="text-align:center; margin-bottom:20px"><img onclick="check()" src="../images/btn01.gif" />&nbsp;&nbsp;<a href="#"><img src="../images/btn02.gif" /></a></p>
 
 
 			</div>
