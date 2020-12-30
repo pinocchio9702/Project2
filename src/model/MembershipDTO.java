@@ -1,6 +1,7 @@
 package model;
 
 public class MembershipDTO {
+	private String name;
 	private String id;
 	private String password;
 	private String telephone;
@@ -8,6 +9,31 @@ public class MembershipDTO {
 	private String email;
 	private String address;
 	private String open_email;
+	private String grade;
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	/**
+	 * @return the grade
+	 */
+	public String getGrade() {
+		return grade;
+	}
+	/**
+	 * @param grade the grade to set
+	 */
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
 	/**
 	 * @return the id
 	 */

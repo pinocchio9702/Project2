@@ -12,6 +12,7 @@ import java.util.Vector;
 import javax.servlet.ServletContext;
 
 
+
 public class MembershipDAO {
 	
 	
@@ -64,8 +65,69 @@ public class MembershipDAO {
 		return maps;
 	}
 	
+	public boolean checkMembershipId(String id) {
+		String query = "SELECT count(id) FROM membership WHERE id=?";
+		boolean isFlag = false;
+		
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+			rs.next();
+			int M_id = rs.getInt(1);
+			if(M_id == 0) {
+				isFlag = true;
+			}
+			else {
+				isFlag = false;
+			}
+		}catch (Exception e) {
+			//예외가 발생한다면 확인이 불가능함으로 무조건 false를 반환한다.
+			e.printStackTrace();
+		}
+		
+		return isFlag;
+		
+	}
 	
 	
+	public int insertMember(MembershipDTO dto) {
+		int affected = 0;
+		try {
+			String sql = "INSERT INTO membership(id, NAME, PASSWORD, telephone, phoneNumber, email, address, open_email)  "
+					+ "   VALUES(?,?,?,?,?,?,?,?)";
+					
+			psmt = con.prepareStatement(sql);
+			psmt.setString(1, dto.getId());
+			psmt.setString(2, dto.getName());
+			psmt.setString(3, dto.getPassword());
+			psmt.setString(4, dto.getTelephone());
+			psmt.setString(5, dto.getPhoneNumber());
+			psmt.setString(6, dto.getEmail());
+			psmt.setString(7, dto.getAddress());
+			psmt.setString(8, dto.getOpen_email());
+
+			affected = psmt.executeUpdate();
+			
+			System.out.println(affected);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return affected;
+	}
 	
-	
+	public void close() {
+		try {
+			// 연결을 해제하는 것이 아니고 풀에 다시 반납한다.
+			if (rs != null)
+				rs.close();
+			if (psmt != null)
+				psmt.close();
+			if (con != null)
+				con.close();
+		} catch (Exception e) {
+			System.out.println("자원반납시 예외발생");
+		}
+	}
 }

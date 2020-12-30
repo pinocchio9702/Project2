@@ -38,7 +38,7 @@
 		});
 		
 	});
-		
+
 	function sucFunc(resData) {
 		calendarMaker($('#calendar'), new Date());
 		calMoveEvtFn();
@@ -218,7 +218,7 @@
 				<ul class="main_photo_list">
 				<c:choose>
 				<c:when test="${empty photoBoard }">
-					<li><p><a href="">공지사항이 없습니다.</a></p></li>
+					<li><p><a href="">게시물이 없습니다.</a></p></li>
 				</c:when>
 				<c:otherwise>
 					<c:forEach items="${photoBoard }" var="row" varStatus="loop">

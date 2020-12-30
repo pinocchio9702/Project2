@@ -21,6 +21,7 @@ public class Main extends HttpServlet{
 	@Override
 	public void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		
 		ServletContext application = this.getServletContext();
 		//web.xml에 저장된 컨텍스트 초기화 파라미터 가져옴
 		String drv = application.getInitParameter("MariaJDBCDriver");
