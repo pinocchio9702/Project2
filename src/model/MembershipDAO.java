@@ -106,6 +106,7 @@ public class MembershipDAO {
 		return maps;
 	}
 	
+	//중복확인
 	public boolean checkMembershipId(String id) {
 		String query = "SELECT count(id) FROM membership WHERE id=?";
 		boolean isFlag = false;
@@ -116,6 +117,7 @@ public class MembershipDAO {
 			rs = psmt.executeQuery();
 			rs.next();
 			int M_id = rs.getInt(1);
+			
 			if(M_id == 0) {
 				isFlag = true;
 			}
@@ -131,7 +133,7 @@ public class MembershipDAO {
 		
 	}
 	
-	
+	//회원 가입
 	public int insertMember(MembershipDTO dto) {
 		int affected = 0;
 		try {
@@ -156,6 +158,7 @@ public class MembershipDAO {
 		return affected;
 	}
 	
+	//관리자로 업데이트
 	public int updateAdmin(String name, String email, String pw) {
 		int affected = 0;
 		try {
@@ -174,6 +177,7 @@ public class MembershipDAO {
 		return affected;
 	}
 	
+	//user로 업데이트
 	public int updateUser(String name) {
 		System.out.println(name);
 		int affected = 0;
@@ -184,13 +188,44 @@ public class MembershipDAO {
 			psmt.setString(1, name);
 	
 			affected = psmt.executeUpdate();
-			System.out.println("이게 안되나?" + affected);
+
 			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		return affected;
 	}
+	
+	public String findId(String name, String email ) {
+		String query = "SELECT id FROM membership WHERE name=? AND email=?";
+		String M_id = "";
+		
+		System.out.println(email);
+		System.out.println(name);
+		
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, name);
+			psmt.setString(2, email);
+			
+			
+			rs = psmt.executeQuery();
+			rs.next();
+			M_id = rs.getString("id");
+			
+			System.out.println(M_id);
+			
+		}catch (Exception e) {
+			//예외가 발생한다면 확인이 불가능함으로 무조건 false를 반환한다.
+			e.printStackTrace();
+		}
+		
+
+		
+		return M_id;
+		
+	}
+	
 	
 	public void close() {
 		try {
