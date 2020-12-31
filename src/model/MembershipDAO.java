@@ -11,15 +11,12 @@ import java.util.Vector;
 
 import javax.servlet.ServletContext;
 
-
-
 public class MembershipDAO {
-	
-	
+
 	Connection con;
 	PreparedStatement psmt;
 	ResultSet rs;
-	
+
 	public MembershipDAO(String driver, String url, String id, String pw) {
 
 		try {
@@ -34,19 +31,17 @@ public class MembershipDAO {
 			e.printStackTrace();
 		}
 	}
-	
-	//모든 회원을 Map에 저장
-	public List<MembershipDTO> membershipList() {
 
+	// 모든 회원을 Map에 저장
+	public List<MembershipDTO> membershipList() {
 
 		List<MembershipDTO> lists = new Vector<MembershipDTO>();
 
-		String query = "SELECT * FROM membership" ;
+		String query = "SELECT * FROM membership";
 
 		try {
 			psmt = con.prepareStatement(query);
 			rs = psmt.executeQuery();
-
 
 			while (rs.next()) {
 				MembershipDTO dto = new MembershipDTO();
@@ -60,22 +55,18 @@ public class MembershipDAO {
 				dto.setAddress(rs.getString(7));
 				dto.setOpen_email(rs.getString(8));
 				dto.setGrade(rs.getString(9));
-				
-				
+
 				lists.add(dto);
-				
-				
+
 			}
 		} catch (Exception e) {
 			System.out.println("getMembershipDTO오류");
 			e.printStackTrace();
 		}
-		
-		
+
 		return lists;
 	}
-	
-	
+
 	// 로그인 방법3 : DTO객체 대신 Map컬렉션에 회원정보를 저장후 반환한다.
 	public Map<String, String> getMembershipMap(String id, String pwd) {
 
@@ -105,41 +96,40 @@ public class MembershipDAO {
 		}
 		return maps;
 	}
-	
-	//중복확인
+
+	// 중복확인
 	public boolean checkMembershipId(String id) {
 		String query = "SELECT count(id) FROM membership WHERE id=?";
 		boolean isFlag = false;
-		
+
 		try {
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, id);
 			rs = psmt.executeQuery();
 			rs.next();
 			int M_id = rs.getInt(1);
-			
-			if(M_id == 0) {
+
+			if (M_id == 0) {
 				isFlag = true;
-			}
-			else {
+			} else {
 				isFlag = false;
 			}
-		}catch (Exception e) {
-			//예외가 발생한다면 확인이 불가능함으로 무조건 false를 반환한다.
+		} catch (Exception e) {
+			// 예외가 발생한다면 확인이 불가능함으로 무조건 false를 반환한다.
 			e.printStackTrace();
 		}
-		
+
 		return isFlag;
-		
+
 	}
-	
-	//회원 가입
+
+	// 회원 가입
 	public int insertMember(MembershipDTO dto) {
 		int affected = 0;
 		try {
 			String sql = "INSERT INTO membership(id, NAME, PASSWORD, telephone, phoneNumber, email, address, open_email)  "
 					+ "   VALUES(?,?,?,?,?,?,?,?)";
-					
+
 			psmt = con.prepareStatement(sql);
 			psmt.setString(1, dto.getId());
 			psmt.setString(2, dto.getName());
@@ -157,76 +147,91 @@ public class MembershipDAO {
 		}
 		return affected;
 	}
-	
-	//관리자로 업데이트
+
+	// 관리자로 업데이트
 	public int updateAdmin(String name, String email, String pw) {
 		int affected = 0;
 		try {
-			String sql = "UPDATE membership SET grade = 'A'  "
-					+ "   WHERE name=? AND email=? AND password=? ";
+			String sql = "UPDATE membership SET grade = 'A'  " + "   WHERE name=? AND email=? AND password=? ";
 			psmt = con.prepareStatement(sql);
 			psmt.setString(1, name);
 			psmt.setString(2, email);
 			psmt.setString(3, pw);
-			
+
 			affected = psmt.executeUpdate();
-			
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return affected;
 	}
-	
-	//user로 업데이트
+
+	// user로 업데이트
 	public int updateUser(String name) {
 		System.out.println(name);
 		int affected = 0;
 		try {
-			String sql = "UPDATE membership SET grade = 'U'  "
-					+ "   WHERE name=? ";
+			String sql = "UPDATE membership SET grade = 'U'  " + "   WHERE name=? ";
 			psmt = con.prepareStatement(sql);
 			psmt.setString(1, name);
-	
+
 			affected = psmt.executeUpdate();
 
-			
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return affected;
 	}
-	
-	public String findId(String name, String email ) {
+
+	public String findId(String name, String email) {
 		String query = "SELECT id FROM membership WHERE name=? AND email=?";
 		String M_id = "";
-		
-		System.out.println(email);
-		System.out.println(name);
-		
+
 		try {
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, name);
 			psmt.setString(2, email);
-			
-			
+
 			rs = psmt.executeQuery();
 			rs.next();
 			M_id = rs.getString("id");
-			
+
 			System.out.println(M_id);
-			
-		}catch (Exception e) {
-			//예외가 발생한다면 확인이 불가능함으로 무조건 false를 반환한다.
+
+		} catch (Exception e) {
+			// 예외가 발생한다면 확인이 불가능함으로 무조건 false를 반환한다.
+			e.printStackTrace();
+		}
+
+		return M_id;
+
+	}
+	
+	//비밀번호 찾기
+	public String findpw(String id, String name, String email) {
+		String query = "SELECT password FROM membership WHERE id=? AND name=? AND email=?";
+		String pw = "";
+		
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, id);
+			psmt.setString(2, name);
+			psmt.setString(3, email);
+
+			rs = psmt.executeQuery();
+			rs.next();
+			pw = rs.getString(1);
+
+			System.out.println(pw);
+
+		} catch (Exception e) {
+			// 예외가 발생한다면 확인이 불가능함으로 무조건 false를 반환한다.
 			e.printStackTrace();
 		}
 		
-
-		
-		return M_id;
-		
+		return pw;
 	}
-	
-	
+
 	public void close() {
 		try {
 			// 연결을 해제하는 것이 아니고 풀에 다시 반납한다.

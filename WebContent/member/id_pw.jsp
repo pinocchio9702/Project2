@@ -9,6 +9,7 @@
 	alert("당신의 아이디는${id }입니다.");
 </c:if>
 
+
 </script>
  
  <body>
@@ -29,22 +30,25 @@
 				</div>
 				<div class="idpw_box">
 					<div class="id_box">
-					<form name="FindId" action="../controller/FindId.do">
+					<form name="FindId" action="../controller/FindId.do"
+						method="post">
 						<ul>
 							<li><input type="text" name="name" value="" class="login_input01" /></li>
 							<li><input type="text" name="email" value="" class="login_input01" /></li>
 						</ul>
-						<a href="javascript:FindId.submit()" ><img data-toggle="modal" data-target="#myModal" src="../images/member/id_btn01.gif" class="id_btn" /></a>
+						<a href="javascript:FindId.submit();" ><img data-toggle="modal" data-target="#myModal" src="../images/member/id_btn01.gif" class="id_btn" /></a>
 						<a href="join02.jsp"><img src="../images/login_btn03.gif" class="id_btn02" /></a>
-					</div>
 					</form>
+					</div>
 					<div class="pw_box">
+					<form name="Findpw" action="../controller/Findpw.do">
 						<ul>
-							<li><input type="text" name="" value="" class="login_input01" /></li>
-							<li><input type="text" name="" value="" class="login_input01" /></li>
-							<li><input type="text" name="" value="" class="login_input01" /></li>
+							<li><input type="text" name="id" value="" class="login_input01" /></li>
+							<li><input type="text" name="name" value="" class="login_input01" /></li>
+							<li><input type="text" name="email" value="" class="login_input01" /></li>
 						</ul>
-						<a href=""><img src="../images/member/id_btn01.gif" class="pw_btn" /></a>
+						<a href="javascript:Findpw.submit();"><img src="../images/member/id_btn01.gif" class="pw_btn" /></a>
+					</form>
 					</div>
 				</div>
 			</div>

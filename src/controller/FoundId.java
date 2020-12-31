@@ -16,13 +16,16 @@ import model.MembershipDAO;
 public class FoundId extends HttpServlet{
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String name = req.getParameter("name");
-		String email = req.getParameter("email");
-		
-		System.out.println("들어오는지 다시한번 확인");
 		
 		// 한글처리
 		req.setCharacterEncoding("UTF-8");
+
+		String name = req.getParameter("name");
+		String email = req.getParameter("email");
+		String findId = "";
+		
+		System.out.println(name);
+		System.out.println(email);
 
 		ServletContext application = this.getServletContext();
 		// web.xml에 저장된 컨텍스트 초기화 파라미터 가져옴
@@ -33,22 +36,26 @@ public class FoundId extends HttpServlet{
 
 		MembershipDAO memberDAO = new MembershipDAO(drv, url, mid, mpw);
 		
-		String findId = memberDAO.findId(name, email);
+		findId = memberDAO.findId(name, email);
 		
 		System.out.println(findId);
 		
-		req.setAttribute("id", findId);
 		
-		//resp.setContentType("text/html; charset=euc-kr"); //한글이 인코딩
-		//PrintWriter out = resp.getWriter(); //선언
+		if(findId.equals("")) {
+			resp.setContentType("text/html; charset=euc-kr"); //한글이 인코딩
+			PrintWriter out = resp.getWriter(); //선언
+			
+			out.println("<script>");
+			out.println("alert('해당 아이디를 찾을 수 없습니다.')");
+			out.println("location.href='../member/id_pw.jsp'");
+			out.println("</script>");
+			out.close();
+		}
 		
-//		out.println("<script>");
-//		out.println("alert('회원님의 아아디는'+"+findId +"+'입니다')");
-//		out.println("location.href='../member/id_pw.jsp'");
-//		out.println("</script>");
-//		out.close();
-		
-		
-		req.getRequestDispatcher("../member/id_pw.jsp").forward(req, resp);
+		else {
+			req.setAttribute("id", findId);
+			
+			req.getRequestDispatcher("../member/id_pw.jsp").forward(req, resp);
+		}
 	}
 }
