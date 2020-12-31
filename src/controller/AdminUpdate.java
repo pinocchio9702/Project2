@@ -27,10 +27,24 @@ public class AdminUpdate extends HttpServlet{
 
 		MembershipDAO memberDAO = new MembershipDAO(drv, url, mid, mpw);
 		
-		String name = 
+		String name = req.getParameter("name");
+		String email = req.getParameter("inputEmail");
+		String pw = req.getParameter("inputPassword");
+		System.out.println(name);
+		System.out.println(email);
+		System.out.println(pw);
 		
+		int result = memberDAO.updateAdmin(name, email, pw);
 		
-		
+		if(result == 1) {
+			req.setAttribute("update", true);
+			req.getRequestDispatcher("/admin").forward(req, res);
+		}
+		else {
+			req.setAttribute("update", false);
+			req.getRequestDispatcher("/admin/register.jsp").forward(req, res);
+			//res.sendRedirect("../member/join02.jsp");
+		}
 		
 		
 		

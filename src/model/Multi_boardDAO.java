@@ -107,7 +107,7 @@ public class Multi_boardDAO {
 
 		}
 		
-		// 게시물을 가져와서 ResultSet형태로 반환
+		//공지사항 게시물 4개 출력
 		public List<Multi_boardDTO> selectListNotice() {
 			// 리스트 컬렉션을 생성
 			List<Multi_boardDTO> bbs = new Vector<Multi_boardDTO>();
@@ -129,8 +129,9 @@ public class Multi_boardDAO {
 					dto.setContent(rs.getString(4));
 					dto.setPostdate(rs.getDate(5));
 					dto.setFile(rs.getString(6));
-					dto.setVisitcount(rs.getInt(7));
-					dto.setCheck_board(rs.getString(8));
+					dto.setFile_path(rs.getString(7));
+					dto.setVisitcount(rs.getInt(8));
+					dto.setCheck_board(rs.getString(9));
 
 					bbs.add(dto);
 					System.out.println("쿼리 토스 성공");
@@ -144,7 +145,7 @@ public class Multi_boardDAO {
 
 		}
 		
-		// 게시물을 가져와서 ResultSet형태로 반환
+		//자유게시판 리스트 4개 출력
 		public List<Multi_boardDTO> selectListBoard() {
 			// 리스트 컬렉션을 생성
 			List<Multi_boardDTO> bbs = new Vector<Multi_boardDTO>();
@@ -166,8 +167,48 @@ public class Multi_boardDAO {
 					dto.setContent(rs.getString(4));
 					dto.setPostdate(rs.getDate(5));
 					dto.setFile(rs.getString(6));
-					dto.setVisitcount(rs.getInt(7));
-					dto.setCheck_board(rs.getString(8));
+					dto.setFile_path(rs.getString(7));
+					dto.setVisitcount(rs.getInt(8));
+					dto.setCheck_board(rs.getString(9));
+
+					bbs.add(dto);
+					System.out.println("쿼리 토스 성공");
+				}
+			} catch (Exception e) {
+				System.out.println("select시 예외발생");
+				e.printStackTrace();
+			}
+
+			return bbs;
+
+		}
+		
+		//사진게시물 가져오기
+		public List<Multi_boardDTO> selectListPhotoBoard() {
+			// 리스트 컬렉션을 생성
+			List<Multi_boardDTO> bbs = new Vector<Multi_boardDTO>();
+			// 기본 쿼리문
+			String sql = "SELECT * FROM multi_board  "
+					+ "   WHERE check_board = 'P'"
+					+ "   ORDER BY NUM DESC LIMIT 6";
+
+			try {
+				psmt = con.prepareStatement(sql);
+				rs = psmt.executeQuery();
+				// 오라클이 반환해주는 Result의 갯수만큼 반복
+				while (rs.next()) {
+					// 하나의 레코드를 DTO객체에 저장하기 위해 새로운 객체생성
+					Multi_boardDTO dto = new Multi_boardDTO();
+					dto.setNum(rs.getInt(1));
+					dto.setId(rs.getString(2));
+					dto.setTitle(rs.getString(3));
+					dto.setContent(rs.getString(4));
+					dto.setPostdate(rs.getDate(5));
+					dto.setFile(rs.getString(6));
+					dto.setFile_path(rs.getString(7));
+					dto.setVisitcount(rs.getInt(8));
+					dto.setCheck_board(rs.getString(9));
+
 
 					bbs.add(dto);
 					System.out.println("쿼리 토스 성공");

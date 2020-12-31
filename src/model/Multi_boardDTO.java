@@ -7,6 +7,23 @@ public class Multi_boardDTO {
 	private String content;
 	private java.sql.Date postdate;
 	private String file;
+	private String file_path;
+	
+	
+	
+	
+	/**
+	 * @return the file_path
+	 */
+	public String getFile_path() {
+		return file_path;
+	}
+	/**
+	 * @param file_path the file_path to set
+	 */
+	public void setFile_path(String file_path) {
+		this.file_path = file_path;
+	}
 	private int visitcount;
 	private String check_board;
 	

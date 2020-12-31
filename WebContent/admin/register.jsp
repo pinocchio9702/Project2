@@ -37,7 +37,7 @@
             <div class="form-row">
               <div class="col-md-12">
                 <div class="form-label-group">
-                  <input type="text" id="name" class="form-control" placeholder="First name" required="required" autofocus="autofocus">
+                  <input type="text" id="name" name="name" class="form-control" placeholder="First name" required="required" autofocus="autofocus">
                   <label for="firstName">Name</label>
                 </div>
               </div>
@@ -45,7 +45,7 @@
           </div>
           <div class="form-group">
             <div class="form-label-group">
-              <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="required">
+              <input type="email" id="inputEmail" name="inputEmail" class="form-control" placeholder="Email address" required="required">
               <label for="inputEmail">Email address</label>
             </div>
           </div>
@@ -53,7 +53,7 @@
             <div class="form-row">
               <div class="col-md-6">
                 <div class="form-label-group">
-                  <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="required">
+                  <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required="required">
                   <label for="inputPassword">Password</label>
                 </div>
               </div>
@@ -66,7 +66,6 @@
             </div>
           </div>
           <button type="submit"  class="btn btn-primary btn-block">관리자로 계정 업데이트</button>
-          <button type="submit" class="btn btn-primary btn-block">일반회원으로 계정 업데이트</button>
         </form>
         
         

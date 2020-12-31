@@ -108,10 +108,26 @@ public class MembershipDAO {
 			psmt.setString(8, dto.getOpen_email());
 
 			affected = psmt.executeUpdate();
-			
-			System.out.println(affected);
 
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return affected;
+	}
+	
+	public int updateAdmin(String name, String email, String pw) {
+		int affected = 0;
+		try {
+			String sql = "UPDATE membership SET grade = 'A'  "
+					+ "   WHERE name=? AND email=? AND password=? ";
+			psmt = con.prepareStatement(sql);
+			psmt.setString(1, name);
+			psmt.setString(2, email);
+			psmt.setString(3, pw);
+			
+			affected = psmt.executeUpdate();
+			
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		return affected;

@@ -224,7 +224,7 @@
 					<c:forEach items="${photoBoard }" var="row" varStatus="loop">
 					<li>
 						<dl>
-							<dt><a href=""><img width="70" height="70" src="${row.image_path }" /></a></dt>
+							<dt><a href=""><img width="70" height="70" src="${row.file_path }" /></a></dt>
 							<dd><a href="">${row.title }</a></dd>
 						</dl>
 					</li>

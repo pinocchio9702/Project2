@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.Multi_boardDAO;
 import model.Multi_boardDTO;
-import model.Photo_boardDAO;
-import model.Photo_boardDTO;
 import util.CookieUtil;
 
 @WebServlet("/main/main.do")
@@ -30,12 +28,11 @@ public class Main extends HttpServlet{
 		String mpw = application.getInitParameter("MariaPass");
 		
 		//DAO객체 생성 및 커넥션풀을 통한 DB연결
-		Multi_boardDAO M_dao = new Multi_boardDAO(drv, url, mid, mpw);
-		Photo_boardDAO P_dao = new Photo_boardDAO(drv, url, mid, mpw);
+		Multi_boardDAO dao = new Multi_boardDAO(drv, url, mid, mpw);
 		
-		List<Multi_boardDTO> listsNotice = M_dao.selectListNotice();
-		List<Multi_boardDTO> listsBoard = M_dao.selectListBoard();
-		List<Photo_boardDTO> photoBoard = P_dao.selectListPhotoBoard();
+		List<Multi_boardDTO> listsNotice = dao.selectListNotice();
+		List<Multi_boardDTO> listsBoard = dao.selectListBoard();
+		List<Multi_boardDTO> photoBoard = dao.selectListPhotoBoard();
 		
 		req.setAttribute("listsNotice", listsNotice);
 		req.setAttribute("listsBoard", listsBoard);
