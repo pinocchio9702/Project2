@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -116,10 +120,19 @@
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Charts</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="tables.html">
+      <li class="nav-item dropdown" >
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-fw fa-table"></i>
           <span>Tables</span></a>
+           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+          <h6 class="dropdown-header">게시물 관리</h6>
+          <a class="dropdown-item" href="tables.html">테이블 예시</a>
+          <a class="dropdown-item" href="../admin/memberList">회원게시물</a>
+          <div class="dropdown-divider"></div>
+          <h6 class="dropdown-header">Other Pages:</h6>
+          <a class="dropdown-item" href="404.html">404 Page</a>
+          <a class="dropdown-item" href="blank.html">Blank Page</a>
+        </div>
       </li>
     </ul>
 
@@ -713,7 +726,7 @@
       <footer class="sticky-footer">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright © Your Website 2019</span>
+            <span>Copyright Â© Your Website 2019</span>
           </div>
         </div>
       </footer>
@@ -736,7 +749,7 @@
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
+            <span aria-hidden="true">Ã</span>
           </button>
         </div>
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>

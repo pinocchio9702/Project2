@@ -35,6 +35,47 @@ public class MembershipDAO {
 		}
 	}
 	
+	//모든 회원을 Map에 저장
+	public List<MembershipDTO> membershipList() {
+
+
+		List<MembershipDTO> lists = new Vector<MembershipDTO>();
+
+		String query = "SELECT * FROM membership" ;
+
+		try {
+			psmt = con.prepareStatement(query);
+			rs = psmt.executeQuery();
+
+
+			while (rs.next()) {
+				MembershipDTO dto = new MembershipDTO();
+				// 결과가 있다면 DTO객체에 정보 저장
+				dto.setId(rs.getString(1));
+				dto.setName(rs.getString(2));
+				dto.setPassword("***********");
+				dto.setTelephone(rs.getString(4));
+				dto.setPhoneNumber(rs.getString(5));
+				dto.setEmail(rs.getString(6));
+				dto.setAddress(rs.getString(7));
+				dto.setOpen_email(rs.getString(8));
+				dto.setGrade(rs.getString(9));
+				
+				
+				lists.add(dto);
+				
+				
+			}
+		} catch (Exception e) {
+			System.out.println("getMembershipDTO오류");
+			e.printStackTrace();
+		}
+		
+		
+		return lists;
+	}
+	
+	
 	// 로그인 방법3 : DTO객체 대신 Map컬렉션에 회원정보를 저장후 반환한다.
 	public Map<String, String> getMembershipMap(String id, String pwd) {
 
@@ -126,6 +167,24 @@ public class MembershipDAO {
 			psmt.setString(3, pw);
 			
 			affected = psmt.executeUpdate();
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return affected;
+	}
+	
+	public int updateUser(String name) {
+		System.out.println(name);
+		int affected = 0;
+		try {
+			String sql = "UPDATE membership SET grade = 'U'  "
+					+ "   WHERE name=? ";
+			psmt = con.prepareStatement(sql);
+			psmt.setString(1, name);
+	
+			affected = psmt.executeUpdate();
+			System.out.println("이게 안되나?" + affected);
 			
 		}catch (Exception e) {
 			e.printStackTrace();

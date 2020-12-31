@@ -32,7 +32,7 @@
         
         
         <form name="updateAccount" action="../controller/update.do"
-        	onsubmit="return check()">
+        	onsubmit="return check()", method = "post">
           <div class="form-group">
             <div class="form-row">
               <div class="col-md-12">

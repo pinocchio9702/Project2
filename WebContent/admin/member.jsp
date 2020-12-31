@@ -1,3 +1,7 @@
+<%@page import="java.util.Map"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -116,10 +120,19 @@
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Charts</span></a>
       </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="tables.html">
+      <li class="nav-item dropdown" >
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-fw fa-table"></i>
           <span>Tables</span></a>
+           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+          <h6 class="dropdown-header">게시물 관리</h6>
+          <a class="dropdown-item" href="tables.html">테이블 예시</a>
+          <a class="dropdown-item" href="../admin/memberList">회원게시물</a>
+          <div class="dropdown-divider"></div>
+          <h6 class="dropdown-header">Other Pages:</h6>
+          <a class="dropdown-item" href="404.html">404 Page</a>
+          <a class="dropdown-item" href="blank.html">Blank Page</a>
+        </div>
       </li>
     </ul>
 
@@ -145,42 +158,62 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Age</th>
-                    <th>Start date</th>
-                    <th>Salary</th>
+                    <th>아이디</th>
+                    <th>이름</th>
+                    <th>비밀번호</th>
+                    <th>전화번호</th>
+                    <th>핸드폰 번호</th>
+                    <th>이메일</th>
+                    <th>주소</th>
+                    <th>이메일 수신 동의</th>
+                    <th>등급</th>
+                    <th>등급 관리</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Age</th>
-                    <th>Start date</th>
-                    <th>Salary</th>
+                    <th>아이디</th>
+                    <th>이름</th>
+                    <th>비밀번호</th>
+                    <th>전화번호</th>
+                    <th>핸드폰 번호</th>
+                    <th>이메일</th>
+                    <th>주소</th>
+                    <th>이메일 수신 동의</th>
+                    <th>등급</th>
+                    <th>등급 관리</th>
                   </tr>
                 </tfoot>
                 <tbody>
-                  <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
-                    <td>61</td>
-                    <td>2011/04/25</td>
-                    <td>$320,800</td>
-                  </tr>
-                  <tr>
-                    <td>Garrett Winters</td>
-                    <td>Accountant</td>
-                    <td>Tokyo</td>
-                    <td>63</td>
-                    <td>2011/07/25</td>
-                    <td>$170,750</td>
-                  </tr>
-          
+				<c:choose>
+					<c:when test="${empty requestScope.memberlist }">
+						<tr>
+							<td colspan="10" align="center" height="100">등록된 게시물이
+								없습니다.</td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+					<c:forEach items="${requestScope.memberlist }" var="row" varStatus="loop">
+	                  <tr>
+	                    <td>${row.id }</td>
+	                    <td>${row.name }</td>
+	                    <td>${row.password }</td>
+	                    <td>${row.telephone }</td>
+	                    <td>${row.phoneNumber }</td>
+	                    <td>${row.email }</td>
+	                    <td>${row.address }</td>
+	                    <td>${row.open_email }</td>
+	                    <td>${row.grade }</td>
+	                    <c:if test="${row.grade eq 'A' }">
+	                    	<td><button onclick="location='../admin/UserUpdate.do?name=${row.name }'" class="btn btn-primary btn-block">기본회원</button></td>
+	                    </c:if>
+	                    <c:if test="${row.grade eq 'U' }">
+	                    	<td>관리자</td>
+	                    </c:if>
+	                  </tr>
+		            </c:forEach>
+		            </c:otherwise>
+				</c:choose>
                 </tbody>
               </table>
             </div>

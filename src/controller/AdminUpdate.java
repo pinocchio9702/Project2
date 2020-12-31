@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServlet;
 
 import model.MembershipDAO;
 
-@WebServlet("/controller/update.do")
+@WebServlet("/admin/update.do")
 public class AdminUpdate extends HttpServlet{
 	@Override
 	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
