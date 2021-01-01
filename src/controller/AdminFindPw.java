@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import model.MembershipDAO;
 import smtp.SMTPAuth;
 
-@WebServlet("/controller/Findpw.do")
-public class FindPw extends HttpServlet{
+@WebServlet("/admin/Findpw.do")
+public class AdminFindPw extends HttpServlet{
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 한글처리
@@ -26,9 +26,6 @@ public class FindPw extends HttpServlet{
 		String name = req.getParameter("name");
 		String email = req.getParameter("email");
 
-		System.out.println(id);
-		System.out.println(name);
-		System.out.println(email);
 
 		
 		ServletContext application = this.getServletContext();
@@ -60,13 +57,13 @@ public class FindPw extends HttpServlet{
 		if(emailResult == false) {
 			out.println("<script>");
 			out.println("alert('비밀번호 찾기를 실패했습니다.')");
-			out.println("location.href='../member/id_pw.jsp'");
+			out.println("location.href='../admin/forgot-password.jsp'");
 			out.println("</script>");
 			out.close();
 		}else {
 			out.println("<script>");
 			out.println("alert('비밀번호를 이메일로 보냈습니다.')");
-			out.println("location.href='../member/id_pw.jsp'");
+			out.println("location.href='../admin/login.jsp'");
 			out.println("</script>");
 			out.close();
 		}

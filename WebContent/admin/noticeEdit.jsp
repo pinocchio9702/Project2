@@ -25,7 +25,32 @@
   <link href="css/sb-admin.css" rel="stylesheet">
 
 </head>
+<script>
+				
+	   function checkValidate(fm){
+	      if(fm.name.value==""){
+	         alert("작성자의 이름을 입력하세요."); 
+	         fm.name.focus(); 
+	         return false; 
+	      }
+	      if(fm.pass.value==""){
+	         alert("비밀번호를 입력하세요."); 
+	         fm.pass.focus(); 
+	         return false; 
+	      }
+	      if(fm.title.value==""){
+	         alert("제목을 입력하세요."); 
+	         fm.title.focus(); 
+	         return false; 
+	      }
+	      if(fm.content.value==""){
+	         alert("내용을 입력하세요."); 
+	         fm.content.focus(); 
+	         return false;
+	      }
+	   }
 
+</script>
 <body id="page-top">
 
   <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -56,70 +81,54 @@
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-table"></i>
-            	회원관리</div>
+            	공지사항 상세보기</div>
           <div class="card-body">
             <div class="table-responsive">
+			<form name="writeFrm" method="post" action="../admin/noticeEdit.do"
+				onsubmit="return checkValidate(this);"
+				enctype="multipart/form-data">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                  <tr>
-                    <th>아이디</th>
-                    <th>이름</th>
-                    <th>비밀번호</th>
-                    <th>전화번호</th>
-                    <th>핸드폰 번호</th>
-                    <th>이메일</th>
-                    <th>주소</th>
-                    <th>이메일 수신 동의</th>
-                    <th>등급</th>
-                    <th>등급 관리</th>
-                  </tr>
-                </thead>
-                <tfoot>
-                  <tr>
-                    <th>아이디</th>
-                    <th>이름</th>
-                    <th>비밀번호</th>
-                    <th>전화번호</th>
-                    <th>핸드폰 번호</th>
-                    <th>이메일</th>
-                    <th>주소</th>
-                    <th>이메일 수신 동의</th>
-                    <th>등급</th>
-                    <th>등급 관리</th>
-                  </tr>
-                </tfoot>
                 <tbody>
-				<c:choose>
-					<c:when test="${empty requestScope.memberlist }">
-						<tr>
-							<td colspan="10" align="center" height="100">등록된 게시물이
-								없습니다.</td>
-						</tr>
-					</c:when>
-					<c:otherwise>
-					<c:forEach items="${requestScope.memberlist }" var="row" varStatus="loop">
-	                  <tr>
-	                    <td>${row.id }</td>
-	                    <td>${row.name }</td>
-	                    <td>${row.password }</td>
-	                    <td>${row.telephone }</td>
-	                    <td>${row.phoneNumber }</td>
-	                    <td>${row.email }</td>
-	                    <td>${row.address }</td>
-	                    <td>${row.open_email }</td>
-	                    <td>${row.grade }</td>
-	                    <c:if test="${row.grade eq 'A' }">
-	                    	<td><button onclick="location='../admin/UserUpdate.do?name=${row.name }'" class="btn btn-primary btn-block">기본회원</button></td>
-	                    </c:if>
-	                    <c:if test="${row.grade eq 'U' }">
-	                    	<td>기본회원</td>
-	                    </c:if>
-	                  </tr>
-		            </c:forEach>
-		            </c:otherwise>
-				</c:choose>
+
+					<input type="text" name="num" value="${dto.num }" />
+					
+					<tr>
+						<th class="text-center align-middle">작성자</th>
+						<td>
+							<input type="text" class="form-control"  name="name" 
+								style="width:100px;" value="남궁찬"/>
+						</td>
+					</tr>
+					
+					<tr>
+						<th class="text-center"
+							style="vertical-align:middle;">제목</th>
+						<td>
+							<input type="text" class="form-control" 
+								name="title" value="${dto.title }"/>
+						</td>
+					</tr>
+					<tr>
+						<th class="text-center"
+							style="vertical-align:middle;">내용</th>
+						<td>
+							<textarea rows="10" 
+								class="form-control" name="content">${dto.content }</textarea>
+						</td>
+					</tr>
+					 <%-- <tr>
+						<th class="text-center"
+							style="vertical-align:middle;">첨부파일</th>
+						<td>
+							파일명 : ${dto.file } 
+							<input type="file" class="form-control" name="file" />
+						</td>
+					</tr>   --%>
+					
                 </tbody>
               </table>
+			<button type="submit" class="btn btn-secondary">수정하기</button>
+			</form>
             </div>
           </div>
         </div>

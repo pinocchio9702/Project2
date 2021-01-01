@@ -97,6 +97,38 @@ public class MembershipDAO {
 		return maps;
 	}
 
+	// 로그인 방법3 : DTO객체 대신 Map컬렉션에 회원정보를 저장후 반환한다.
+		public Map<String, String> getAdminMembershipMap(String id, String pwd) {
+
+			// 회원정보를 저장할 Map컬렉션 생성
+			Map<String, String> maps = new HashMap<String, String>();
+
+			String query = "SELECT id, password, name FROM  " 
+					+ "  membership WHERE id=? AND password=? AND grade = 'A'";
+
+			try {
+				psmt = con.prepareStatement(query);
+				psmt.setString(1, id);
+				psmt.setString(2, pwd);
+				rs = psmt.executeQuery();
+
+				// 회원정보가 있다면 put()을 통해 정보를 저장한다.
+				if (rs.next()) {
+					// 결과가 있다면 DTO객체에 정보 저장
+					maps.put("id", rs.getString(1));
+					maps.put("password", rs.getString("password"));
+					maps.put("name", rs.getString(3));
+				} else {
+					System.out.println("결과 셋이 없습니다.");
+				}
+			} catch (Exception e) {
+				System.out.println("getMembershipDTO오류");
+				e.printStackTrace();
+			}
+			return maps;
+		}
+
+	
 	// 중복확인
 	public boolean checkMembershipId(String id) {
 		String query = "SELECT count(id) FROM membership WHERE id=?";

@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,34 +26,31 @@
 
   <div class="container">
     <div class="card card-login mx-auto mt-5">
-      <div class="card-header">Login</div>
+      <div class="card-header">로그인</div>
       <div class="card-body">
-        <form>
+      <%if(request.getAttribute("ERROR_MSG")!=null){ %>
+			<script>
+			alert("관리자 모드에 접근하실수 업습니다.");
+			</script>
+		<%} %>
+        <form name="adminLogin" action="../admin/Lgoin.do"
+        	method="post">
           <div class="form-group">
             <div class="form-label-group">
-              <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="required" autofocus="autofocus">
-              <label for="inputEmail">Email address</label>
+              <input type="email" name="Id" id="inputEmail" class="form-control" placeholder="ID" required="required" autofocus="autofocus">
+              <label for="inputEmail">id</label>
             </div>
           </div>
           <div class="form-group">
             <div class="form-label-group">
-              <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="required">
+              <input type="password" name="Password" id="inputPassword" class="form-control" placeholder="Password" required="required">
               <label for="inputPassword">Password</label>
             </div>
           </div>
-          <div class="form-group">
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value="remember-me">
-                Remember Password
-              </label>
-            </div>
-          </div>
-          <a class="btn btn-primary btn-block" href="index.html">Login</a>
+          <a onclick="javascript:adminLogin.submit()" class="btn btn-primary btn-block">Login</a>
         </form>
-        <div class="text-center">
-          <a class="d-block small mt-3" href="register.html">Register an Account</a>
-          <a class="d-block small" href="forgot-password.html">Forgot Password?</a>
+        <div style="margin: 10px" class="text-center">
+          <a class="d-block small" href="forgot-password.jsp">Forgot Password?</a>
         </div>
       </div>
     </div>

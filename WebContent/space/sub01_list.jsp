@@ -60,7 +60,7 @@ param.put("nowPage", nowPage);
 param.put("totalCount", totalRecordCount);
 param.put("pageSize", pageSize);
 
-String pagingImg = PagingUtil.paginBS4(totalRecordCount, pageSize, blockPage, nowPage, "../DataRoom/DataList?" + addQueryString);
+String pagingImg = PagingUtil.paginBS4(totalRecordCount, pageSize, blockPage, nowPage, "sub01_list.jsp?" + addQueryString);
 param.put("pagingImg", pagingImg);
 
 List<Multi_boardDTO> listsNotice = dao.selectListPageNotice(param); //페이지 처리 o
@@ -73,7 +73,10 @@ request.setAttribute("listsNotice", listsNotice);
 request.setAttribute("map", param);
 
 %>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
  <body>
 	<center>
@@ -158,7 +161,7 @@ request.setAttribute("map", param);
 		<td class="text-center">${row.visitcount }</td>
 		<td class="text-center"><c:if test="${not empty row.file }">
 			<a
-				href="./Download?filename=${row.file }&idx=${row.num}">
+				href="../Download?filename=${row.file }&idx=${row.num}">
 				<img src="../images/disk.png" width="20">
 			</a>
 		</c:if></td>
@@ -172,9 +175,6 @@ request.setAttribute("map", param);
 <div class="row text-right" style="padding-right:50px;">
 	<!-- 각종 버튼 부분 -->
 	<!-- <button type="reset" class="btn">Reset</button> -->
-		
-	<button type="button" class="btn btn-default" 
-		onclick="location.href='sub01_write.jsp';">글쓰기</button>
 				
 	<!-- <button type="button" class="btn btn-primary">수정하기</button>
 	<button type="button" class="btn btn-success">삭제하기</button>
@@ -185,13 +185,16 @@ request.setAttribute("map", param);
 <div class="row text-center">
 	<!-- 페이지번호 부분 -->
 	<ul class="pagination">
-		<li><span class="glyphicon glyphicon-fast-backward"></span></li>
+	
+	${map.pagingImg }
+	
+		<!-- <li><span class="glyphicon glyphicon-fast-backward"></span></li>
 		<li><a href="#">1</a></li>		
 		<li class="active"><a href="#">2</a></li>
 		<li><a href="#">3</a></li>
 		<li><a href="#">4</a></li>		
 		<li><a href="#">5</a></li>
-		<li><span class="glyphicon glyphicon-fast-forward"></span></li>
+		<li><span class="glyphicon glyphicon-fast-forward"></span></li> -->
 	</ul>	
 </div>
 

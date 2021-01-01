@@ -2,7 +2,7 @@ package util;
 
 public class PagingUtil {
 	public static String paginBS4(int totalRecordCount, int pageSize, int blockPage, int nowPage, String pageName) {
-
+		
 		String pagingStr = "";
 
 		// 전체페이지 수를 계산

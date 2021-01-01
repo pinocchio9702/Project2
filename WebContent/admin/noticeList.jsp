@@ -56,70 +56,61 @@
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-table"></i>
-            	회원관리</div>
+            	공지사항</div>
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>아이디</th>
-                    <th>이름</th>
-                    <th>비밀번호</th>
-                    <th>전화번호</th>
-                    <th>핸드폰 번호</th>
-                    <th>이메일</th>
-                    <th>주소</th>
-                    <th>이메일 수신 동의</th>
-                    <th>등급</th>
-                    <th>등급 관리</th>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                    <th>첨부</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>아이디</th>
-                    <th>이름</th>
-                    <th>비밀번호</th>
-                    <th>전화번호</th>
-                    <th>핸드폰 번호</th>
-                    <th>이메일</th>
-                    <th>주소</th>
-                    <th>이메일 수신 동의</th>
-                    <th>등급</th>
-                    <th>등급 관리</th>
+                   <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                    <th>첨부</th>
                   </tr>
                 </tfoot>
                 <tbody>
 				<c:choose>
-					<c:when test="${empty requestScope.memberlist }">
+					<c:when test="${empty requestScope.AdminNoticeList }">
 						<tr>
 							<td colspan="10" align="center" height="100">등록된 게시물이
 								없습니다.</td>
 						</tr>
 					</c:when>
 					<c:otherwise>
-					<c:forEach items="${requestScope.memberlist }" var="row" varStatus="loop">
+					<c:forEach items="${requestScope.AdminNoticeList }" var="row" varStatus="loop">
 	                  <tr>
+	                    <td>${row.num }</td>
+	                    <td><a href="../admin/noticeView.do?num=${row.num }">${row.title }</a></td>
 	                    <td>${row.id }</td>
-	                    <td>${row.name }</td>
-	                    <td>${row.password }</td>
-	                    <td>${row.telephone }</td>
-	                    <td>${row.phoneNumber }</td>
-	                    <td>${row.email }</td>
-	                    <td>${row.address }</td>
-	                    <td>${row.open_email }</td>
-	                    <td>${row.grade }</td>
-	                    <c:if test="${row.grade eq 'A' }">
-	                    	<td><button onclick="location='../admin/UserUpdate.do?name=${row.name }'" class="btn btn-primary btn-block">기본회원</button></td>
-	                    </c:if>
-	                    <c:if test="${row.grade eq 'U' }">
-	                    	<td>기본회원</td>
-	                    </c:if>
+	                    <td>${row.postdate }</td>
+	                    <td>${row.visitcount }</td>
+	                    <td><c:if test="${not empty row.file }">
+							<a
+								href="../admin/Download?filename=${row.file }">
+								<img src="../images/disk.png" width="20">
+							</a>
+						</c:if></td>
 	                  </tr>
 		            </c:forEach>
 		            </c:otherwise>
 				</c:choose>
                 </tbody>
+
               </table>
+              
+              <button onclick="location.href='noticeWrite.jsp'" style="float: right;" type="button" class="btn btn-outline-secondary">공지사항 올리기</button>
             </div>
           </div>
         </div>

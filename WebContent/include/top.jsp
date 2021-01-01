@@ -23,7 +23,7 @@
 	<!-- <a href="../center/sub01.jsp"><img src="../images/navi.jpg" id="navigation" /></a> -->
 	<img src="../images/gnb.jpg" id="navigation"  width="753" height="65" usemap="#GNB"/>
 	<map name="GNB">
-		<area shape="rect" alt="" title="" coords="0,0,80,33" href="../center/sub01_list.jsp" target="" />
+		<area shape="rect" alt="" title="" coords="0,0,80,33" href="../center/sub01.jsp" target="" />
 		<area shape="rect" alt="" title="" coords="86,0,188,33" href="../business/sub01.jsp" target="" />
 		<area shape="rect" alt="" title="" coords="193,0,316,33" href="../product/sub01.jsp" target="" />
 		<area shape="rect" alt="" title="" coords="321,0,420,33" href="../market/sub01.jsp" target="" />

@@ -60,10 +60,10 @@ param.put("nowPage", nowPage);
 param.put("totalCount", totalRecordCount);
 param.put("pageSize", pageSize);
 
-String pagingImg = PagingUtil.paginBS4(totalRecordCount, pageSize, blockPage, nowPage, "../DataRoom/DataList?" + addQueryString);
+String pagingImg = PagingUtil.paginBS4(totalRecordCount, pageSize, blockPage, nowPage, "sub03_list.jsp?" + addQueryString);
 param.put("pagingImg", pagingImg);
 
-List<Multi_boardDTO> listsBoard = dao.selectListBoard(); //페이지 처리 o
+List<Multi_boardDTO> listsBoard = dao.selectListPageBoard(param); //페이지 처리 o
 
 //DB연결을 헤제하는 것이 아니라 커넥션풀에 개체를 반납한다.
 dao.close();
@@ -73,6 +73,10 @@ request.setAttribute("listsBoard", listsBoard);
 request.setAttribute("map", param);
 
 %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
  <body>
 	<center>
@@ -184,13 +188,7 @@ request.setAttribute("map", param);
 <div class="row text-center">
 	<!-- 페이지번호 부분 -->
 	<ul class="pagination">
-		<li><span class="glyphicon glyphicon-fast-backward"></span></li>
-		<li><a href="#">1</a></li>		
-		<li class="active"><a href="#">2</a></li>
-		<li><a href="#">3</a></li>
-		<li><a href="#">4</a></li>		
-		<li><a href="#">5</a></li>
-		<li><span class="glyphicon glyphicon-fast-forward"></span></li>
+		${map.pagingImg }
 	</ul>	
 </div>
 

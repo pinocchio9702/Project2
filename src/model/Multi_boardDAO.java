@@ -10,6 +10,7 @@ import java.util.Vector;
 
 
 
+
 public class Multi_boardDAO {
 	
 	Connection con;
@@ -34,6 +35,7 @@ public class Multi_boardDAO {
 		public int getTotalRecordCountNotice(Map map) {
 			// 게시물의 갯수는 최초 0으로 초기화
 			int totalCount = 0;
+			
 
 			try {
 				// 기본쿼리문(전체레코드를 대상으로 함)
@@ -54,6 +56,8 @@ public class Multi_boardDAO {
 				totalCount = rs.getInt(1);
 			} catch (Exception e) {
 			}
+
+			System.out.println(totalCount);
 
 			return totalCount;
 		}
@@ -86,7 +90,99 @@ public class Multi_boardDAO {
 				while (rs.next()) {
 					Multi_boardDTO dto = new Multi_boardDTO();
 
-					dto.setNum(rs.getInt(1));
+					dto.setNum(rs.getString(1));
+					dto.setId(rs.getString(2));
+					dto.setTitle(rs.getString(3));
+					dto.setContent(rs.getString(4));
+					dto.setPostdate(rs.getDate(5));
+					dto.setFile(rs.getString(6));
+					dto.setVisitcount(rs.getInt(7));
+					dto.setCheck_board(rs.getString(8));
+
+					bbs.add(dto);
+				}
+
+			} catch (Exception e) {
+				System.out.println("update중 예외발생");
+				e.printStackTrace();
+			}
+
+			return bbs;
+
+		}
+		
+		public List<Multi_boardDTO> AdminselectNoticeList() {
+
+			List<Multi_boardDTO> bbs = new Vector<Multi_boardDTO>();
+
+			// 쿼리문이 아래와 같이 페이지처리 쿼리문으로 변경됨.
+			String sql = "  " 
+					+ "     SELECT * FROM multi_board "
+					+ "		WHERE check_board = 'N' ";
+
+			System.out.println("쿼리문 : " + sql);
+
+			try {
+
+				psmt = con.prepareStatement(sql);
+
+			
+
+				rs = psmt.executeQuery();
+
+				while (rs.next()) {
+					Multi_boardDTO dto = new Multi_boardDTO();
+
+					dto.setNum(rs.getString(1));
+					dto.setId(rs.getString(2));
+					dto.setTitle(rs.getString(3));
+					dto.setContent(rs.getString(4));
+					dto.setPostdate(rs.getDate(5));
+					dto.setFile(rs.getString(6));
+					dto.setVisitcount(rs.getInt(7));
+					dto.setCheck_board(rs.getString(8));
+
+					bbs.add(dto);
+				}
+
+			} catch (Exception e) {
+				System.out.println("update중 예외발생");
+				e.printStackTrace();
+			}
+
+			return bbs;
+
+		}
+		
+		public List<Multi_boardDTO> selectListPageBoard(Map map) {
+
+			List<Multi_boardDTO> bbs = new Vector<Multi_boardDTO>();
+
+			// 쿼리문이 아래와 같이 페이지처리 쿼리문으로 변경됨.
+			String sql = "  " 
+					+ "     SELECT * FROM multi_board "
+					+ "		WHERE check_board = 'B' ";
+
+			if (map.get("Word") != null) {
+				sql += " WHERE  " + map.get("Column") + " " + " LIKE '%" + map.get("Word") + "%' ";
+			}
+			sql += " " + "       ORDER BY num DESC LIMIT ?, ? ";
+			System.out.println("쿼리문 : " + sql);
+
+			try {
+
+				psmt = con.prepareStatement(sql);
+
+				// JSP에서 계산한 페이지 범위값을 이용해 인파라미터를 설정함.
+				psmt.setInt(1, Integer.parseInt(map.get("start").toString()));
+				psmt.setInt(2, Integer.parseInt(map.get("end").toString()));
+
+				rs = psmt.executeQuery();
+
+				while (rs.next()) {
+					Multi_boardDTO dto = new Multi_boardDTO();
+
+					dto.setNum(rs.getString(1));
 					dto.setId(rs.getString(2));
 					dto.setTitle(rs.getString(3));
 					dto.setContent(rs.getString(4));
@@ -123,7 +219,7 @@ public class Multi_boardDAO {
 				while (rs.next()) {
 					// 하나의 레코드를 DTO객체에 저장하기 위해 새로운 객체생성
 					Multi_boardDTO dto = new Multi_boardDTO();
-					dto.setNum(rs.getInt(1));
+					dto.setNum(rs.getString(1));
 					dto.setId(rs.getString(2));
 					dto.setTitle(rs.getString(3));
 					dto.setContent(rs.getString(4));
@@ -161,7 +257,7 @@ public class Multi_boardDAO {
 				while (rs.next()) {
 					// 하나의 레코드를 DTO객체에 저장하기 위해 새로운 객체생성
 					Multi_boardDTO dto = new Multi_boardDTO();
-					dto.setNum(rs.getInt(1));
+					dto.setNum(rs.getString(1));
 					dto.setId(rs.getString(2));
 					dto.setTitle(rs.getString(3));
 					dto.setContent(rs.getString(4));
@@ -199,7 +295,7 @@ public class Multi_boardDAO {
 				while (rs.next()) {
 					// 하나의 레코드를 DTO객체에 저장하기 위해 새로운 객체생성
 					Multi_boardDTO dto = new Multi_boardDTO();
-					dto.setNum(rs.getInt(1));
+					dto.setNum(rs.getString(1));
 					dto.setId(rs.getString(2));
 					dto.setTitle(rs.getString(3));
 					dto.setContent(rs.getString(4));
@@ -253,17 +349,18 @@ public class Multi_boardDAO {
 			//게시판, 회원테이블을 조인하여 이름까지 가져와서 조회
 			String query = "" 
 					+ "SELECT  "
-				    + "	  	num, title, content, B.id, postdate, visitcount, name, email  "
+				    + "	  	num, title, content, B.id, postdate, visitcount, name, email, file  "
 				    + "   FROM membership M INNER JOIN multi_board B   "
 				    + "  	ON M.id=B.id   "
 				    + "   WHERE num=?   ";
+		
 			
 			try {
 				psmt = con.prepareStatement(query);
 				psmt.setString(1, num);
 				rs = psmt.executeQuery();
 				if(rs.next()) {
-					dto.setNum(rs.getInt(1));
+					dto.setNum(rs.getString(1));
 					dto.setTitle(rs.getString(2));
 					dto.setContent(rs.getString("content"));
 					dto.setPostdate(rs.getDate("postdate"));
@@ -274,6 +371,7 @@ public class Multi_boardDAO {
 					*/
 					dto.setName(rs.getString(7));
 					dto.setEmail(rs.getString(8));
+					dto.setFile(rs.getString(9));
 				}
 			}catch (Exception e) {
 				System.out.println("상세보기시 예외발생");
@@ -283,7 +381,67 @@ public class Multi_boardDAO {
 			return dto;
 		}
 		
+		public int insertNotice(Multi_boardDTO dto) {
+			int affected = 0;
+			
+			System.out.println(dto.getFile());
+			try {
+				String sql = "INSERT INTO multi_board ( " 
+						+ "  id, title, content, file, check_board)  "
+						+ "  VALUES (?, ?, ?, ?, 'N')";
+				psmt = con.prepareStatement(sql);
+				psmt.setString(1, dto.getId());
+				psmt.setString(2, dto.getTitle());
+				psmt.setString(3, dto.getContent());
+				psmt.setString(4, dto.getFile());
+
+				affected = psmt.executeUpdate();
+				System.out.println(affected);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return affected;
+		}
 		
+		public int delete(String num) {
+			int affected = 0;
+			try {
+				String query = " DELETE FROM multi_board  " + "  WHERE num=?";
+				psmt = con.prepareStatement(query);
+				psmt.setString(1, num);
+
+				affected = psmt.executeUpdate();
+			} catch (Exception e) {
+				System.out.println("delecte중 예외발생");
+				e.printStackTrace();
+			}
+
+			return affected;
+		}
+		
+		public int update(Multi_boardDTO dto) {
+			int affected = 0;
+
+			try {
+				String query = "UPDATE multi_board SET  " 
+						+ "  title=?, content=?, file=?"
+						+ "  WHERE num=?";
+
+				psmt = con.prepareStatement(query);
+				psmt.setString(1, dto.getTitle());
+				psmt.setString(2, dto.getContent());
+				psmt.setString(3, dto.getFile());
+				psmt.setString(4, dto.getNum());
+
+				affected = psmt.executeUpdate();
+
+			} catch (Exception e) {
+				System.out.println("update중 예외발생");
+				e.printStackTrace();
+			}
+
+			return affected;
+		}
 		
 		public void close() {
 			try {

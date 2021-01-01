@@ -1,7 +1,7 @@
 package model;
 
 public class Multi_boardDTO {
-	private int num;
+	private String num;
 	private String id;
 	private String title;
 	private String content;
@@ -64,13 +64,13 @@ public class Multi_boardDTO {
 	/**
 	 * @return the num
 	 */
-	public int getNum() {
+	public String getNum() {
 		return num;
 	}
 	/**
 	 * @param num the num to set
 	 */
-	public void setNum(int num) {
+	public void setNum(String num) {
 		this.num = num;
 	}
 	/**

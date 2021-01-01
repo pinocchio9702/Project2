@@ -56,74 +56,71 @@
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-table"></i>
-            	회원관리</div>
+            	공지사항 상세보기</div>
           <div class="card-body">
             <div class="table-responsive">
+            
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                  <tr>
-                    <th>아이디</th>
-                    <th>이름</th>
-                    <th>비밀번호</th>
-                    <th>전화번호</th>
-                    <th>핸드폰 번호</th>
-                    <th>이메일</th>
-                    <th>주소</th>
-                    <th>이메일 수신 동의</th>
-                    <th>등급</th>
-                    <th>등급 관리</th>
-                  </tr>
-                </thead>
-                <tfoot>
-                  <tr>
-                    <th>아이디</th>
-                    <th>이름</th>
-                    <th>비밀번호</th>
-                    <th>전화번호</th>
-                    <th>핸드폰 번호</th>
-                    <th>이메일</th>
-                    <th>주소</th>
-                    <th>이메일 수신 동의</th>
-                    <th>등급</th>
-                    <th>등급 관리</th>
-                  </tr>
-                </tfoot>
                 <tbody>
-				<c:choose>
-					<c:when test="${empty requestScope.memberlist }">
-						<tr>
-							<td colspan="10" align="center" height="100">등록된 게시물이
-								없습니다.</td>
-						</tr>
-					</c:when>
-					<c:otherwise>
-					<c:forEach items="${requestScope.memberlist }" var="row" varStatus="loop">
-	                  <tr>
-	                    <td>${row.id }</td>
-	                    <td>${row.name }</td>
-	                    <td>${row.password }</td>
-	                    <td>${row.telephone }</td>
-	                    <td>${row.phoneNumber }</td>
-	                    <td>${row.email }</td>
-	                    <td>${row.address }</td>
-	                    <td>${row.open_email }</td>
-	                    <td>${row.grade }</td>
-	                    <c:if test="${row.grade eq 'A' }">
-	                    	<td><button onclick="location='../admin/UserUpdate.do?name=${row.name }'" class="btn btn-primary btn-block">기본회원</button></td>
-	                    </c:if>
-	                    <c:if test="${row.grade eq 'U' }">
-	                    	<td>기본회원</td>
-	                    </c:if>
-	                  </tr>
-		            </c:forEach>
-		            </c:otherwise>
-				</c:choose>
+				<tr>
+				<th class="text-center" 
+					style="vertical-align:middle;">작성자</th>
+					<td>
+						${dto.name }
+					</td>
+					<th class="text-center" 
+						style="vertical-align:middle;">작성일</th>
+					<td>
+						${dto.postdate }
+					</td>
+				</tr>
+				<tr>
+					<th class="text-center" 
+						style="vertical-align:middle;">이메일</th>
+					<td>
+						${dto.email }
+					</td>
+					<th class="text-center" 
+						style="vertical-align:middle;">조회수</th>
+					<td>
+						${dto.visitcount }
+					</td>
+				</tr>
+				<tr>
+					<th class="text-center" 
+						style="vertical-align:middle;">제목</th>
+					<td colspan="3">
+						${dto.title }
+					</td>
+				</tr>
+				<tr>
+					<th class="text-center" 
+						style="vertical-align:middle;">내용</th>
+					<td colspan="3">
+						${dto.content }
+					</td>
+				</tr>
+				<tr>
+					<th class="text-center" 
+						style="vertical-align:middle;">첨부파일</th>
+					<td colspan="3">
+						<c:if test="${not empty dto.file }">
+							${dto.file }
+							<a href="../admin/Download?filename=${dto.file }">
+								[다운로드]
+							</a>
+						</c:if>
+					</td>
+				</tr>
                 </tbody>
               </table>
             </div>
           </div>
         </div>
-
+		<button type="button" class="btn btn-secondary" onclick="location.href='../admin/noticeEdit.do?num=${dto.num}';">수정하기</button>
+		<button type="button" class="btn btn-success" onclick="location.href='../admin/noticeDelete.do';">삭제하기</button>
+		<button type="button" class="btn btn-warning"
+							onclick="location.href='../admin/noticeList';">리스트보기</button>			
         <p class="small text-center text-muted my-5">
           <em>More table examples coming soon...</em>
         </p>

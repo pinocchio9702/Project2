@@ -22,8 +22,11 @@
 				</div>
 				<div class="con_box">
 					<p class="con_tit"><img src="../images/center/sub07_tit01.gif" alt="오시는길" /></p>
-					<img src="../images/center/sub07_img01.gif" class="con_img"/>
-					<p class="con_tit"><img src="../images/center/sub07_tit02.gif" alt="자가용 오시는길" /></p>
+					
+					<!-- 지도를 표시할 kakao api -->
+					<div id="map" style="width:100%;height:350px;"></div>
+					
+					<p style="margin-top:25px;" class="con_tit"><img src="../images/center/sub07_tit02.gif" alt="자가용 오시는길" /></p>
 					<div class="in_box">
 						<p class="dot_tit">강북 방향</p>
 						<p style="margin-bottom:15px;">강변북로 진입 후 월드컵 경기장 방면으로 우측방향 → 난지도길 가양대교 방향으로 좌회전 → 상암동길 상암초교 방면으로 우회전 </p>
@@ -44,7 +47,41 @@
 		</div>
 		<%@ include file="../include/quick.jsp" %>
 	</div>
+	<!-- 지도를 표시할 kakao api -->
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5f408179124f9584ab9fb487a3e468c6"></script>
+	<script>
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	    mapOption = { 
+	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+	        level: 3 // 지도의 확대 레벨
+	    };
 	
+	// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+	var map = new kakao.maps.Map(mapContainer, mapOption);
+	
+	// 마커가 표시될 위치입니다 
+	var markerPosition  = new kakao.maps.LatLng(37.479053748747006, 126.87879145177513); 
+	
+	// 마커를 생성합니다
+	var marker = new kakao.maps.Marker({
+	    position: markerPosition
+	});
+	
+	// 마커가 지도 위에 표시되도록 설정합니다
+	marker.setMap(map);
+	
+	var iwContent = '<div style="padding:5px;">한국소프트웨어인재개발원 <br><a href="https://map.kakao.com/link/map/한국소프트웨어인재개발원,37.479053748747006, 126.87879145177513" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/한국소프트웨어인재개발원,37.479053748747006, 126.87879145177513" style="color:blue" target="_blank">길찾기</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+    iwPosition = new kakao.maps.LatLng(37.479053748747006, 126.87879145177513); //인포윈도우 표시 위치입니다
+    
+ // 인포윈도우를 생성합니다
+    var infowindow = new kakao.maps.InfoWindow({
+        position : iwPosition, 
+        content : iwContent 
+    });
+    
+ // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+    infowindow.open(map, marker);
+	</script>
 
 	<%@ include file="../include/footer.jsp" %>
 	</center>
