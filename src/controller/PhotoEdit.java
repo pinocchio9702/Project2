@@ -15,12 +15,10 @@ import model.Multi_boardDAO;
 import model.Multi_boardDTO;
 import util.FileUtil;
 
-@WebServlet("/admin/noticeEdit.do")
-public class NoticeEdit extends HttpServlet{
+@WebServlet("/controller/PhotoEdit.do")
+public class PhotoEdit extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-
 		
 		req.setCharacterEncoding("UTF-8");
 
@@ -38,19 +36,16 @@ public class NoticeEdit extends HttpServlet{
 		//수정폼을 구성하기 위해 게시물의 내용을 가져온다.
 		Multi_boardDTO dto = dao.selectView(num);
 		
+		System.out.println("dto에 저장된 파일 : " + dto.getFile());
+		
 		req.setAttribute("dto", dto);
 		
-		req.getRequestDispatcher("../admin/noticeEdit.jsp").forward(req, resp);
-		
-		
+		req.getRequestDispatcher("../space/sub04_Edit.jsp").forward(req, resp);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("여기는 오는가?");
-		
 		req.setCharacterEncoding("UTF-8");
-		
 		
 		ServletContext application = this.getServletContext();
 		// web.xml에 저장된 컨텍스트 초기화 파라미터 가져옴
@@ -61,60 +56,72 @@ public class NoticeEdit extends HttpServlet{
 		
 		Multi_boardDAO dao = new Multi_boardDAO(drv, url, mid, mpw);
 		
-		//첨부파일 업로드
-		MultipartRequest mr = FileUtil.upload(req, req.getServletContext().getRealPath("images/upload"));
+		//request객체와 물리적경로를 매개변수로 upload()를 호출한다.
+		MultipartRequest mr = FileUtil.upload(req, req.getServletContext().getRealPath("upload"));
 		
 		System.out.println(mr);
 		
 		int sucOrFail;
 		
-		//멀티파트 객체가 정상적으로 생성되면 나머지 폼값을 받아온다.
-		if(mr != null) {
+		if(mr !=null) {
 			String num = mr.getParameter("num");
-			String name = mr.getParameter("name");
-			
-			System.out.println("2");
-			//수정처리후 상세보기 페이지로 이동해야 하므로 영역에 속성을 저장한다.
-			req.setAttribute("num", num);
-			
-
 			String title = mr.getParameter("title");
 			String content = mr.getParameter("content");
-			String file = mr.getParameter("file");
+			String file = mr.getFilesystemName("file");
+			String originalfile = mr.getParameter("originalfile");
+			String file_path = "/Project2/upload/"+file;
 			
-
-			
+			System.out.println("파라미터로 넘어온 게시물 일련번혼 : " + num);
+			System.out.println("파라미터로 넘어온 제목 : "+ title);
+			System.out.println("파라미터로 넘어온 내용  : " +content);
+			System.out.println("파라미터로 넘어온 파일명 : " +  file);
+			System.out.println("파라미터로 넘어온 원본 파일명 : " + originalfile);
+			System.out.println("파일 경로 : " + file_path);
 			
 			Multi_boardDTO dto = new Multi_boardDTO();
-			dto.setFile(file);
-			dto.setContent(content);
-			dto.setTitle(title);
-			dto.setName(name);
 			dto.setNum(num);
+			dto.setTitle(title);
+			dto.setContent(content);
+			dto.setFile(file);
+			dto.setFile_path(file_path);
 			
-			/*
-			 레코드의 update가 성공이고 동시에 새로운 파일이 업로드 되었다면
-			 기존의 파일은 삭제처리한다.
-			 첨부한 파일이 없다면 기존파일은 유지된다.
-			 */
-			ServletContext app = this.getServletContext();
-			sucOrFail = dao.update(dto);
+			sucOrFail = dao.Photoupdate(dto);
 			
-//			if(sucOrFail == 1) {
-//				FileUtil.deleteFile(req, "image/upload", file);
-//			}
+			if(sucOrFail == 1 && mr.getFilesystemName("file")!=null) {
+				System.out.println("삭제하기 위한 조건문을 들어오는지 디버깅");
+				FileUtil.deleteFile(req, "/upload", originalfile);
+			}
 			
 			dao.close();
-		}
-		else {
+			
+		}else {
 			sucOrFail = -1;
 		}
 		
-		//수정처리 이후에는 상세보기 페이지로 이동한다.
-		req.setAttribute("SUC_FAIL", sucOrFail);
-		req.setAttribute("WHEREIS", "UPDATE");
+		if(sucOrFail ==1) {
+			req.getRequestDispatcher("../space/sub04_list.jsp").forward(req, resp);
+		}
+		else {
+			req.getRequestDispatcher("../space/sub04_Edit.jsp").forward(req, resp);
+		}
 		
-		req.getRequestDispatcher("noticeList").forward(req, resp);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 	}
 }

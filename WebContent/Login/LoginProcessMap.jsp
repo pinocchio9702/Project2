@@ -12,6 +12,8 @@ String id = request.getParameter("user_id");
 String pw = request.getParameter("user_pw");
 String id_save = request.getParameter("id_save");
 
+System.out.println("프로제스로 파라미터로 넘어온 user_id : " + id);
+
 //web.xml에 저장된 컨텍스트 초기화 파라미터 가져옴
 String drv = application.getInitParameter("MariaJDBCDriver");
 String url = application.getInitParameter("MariaConnectURL");
@@ -25,6 +27,7 @@ MembershipDAO dao = new MembershipDAO(drv, url, mid, mpw);
 //방법3 : Map컬렉션에 저장된 회원정보를 통해 세션 영역에 저장
 Map<String, String> memberShipMap = dao.getMembershipMap(id, pw);
 
+System.out.println("dao객체로 Map에 저장된 회원 아아디 : " + memberShipMap.get("id"));
 //if(id.equals(memberDTO.getId()) && pw.equals(memberDTO.getPass())){
 if (memberShipMap.get("id") != null) {
 	System.out.println("1");
@@ -34,6 +37,7 @@ if (memberShipMap.get("id") != null) {
 	session.setAttribute("USER_ID", memberShipMap.get("id"));
 	session.setAttribute("USER_PW", memberShipMap.get("pass"));
 	session.setAttribute("USER_NAME", memberShipMap.get("name"));
+	//session.setAttribute("USER_EMAIL", memberShipMap.get("email"));
 
 	//아이디 저장하기 체크박스를...
 	if (id_save == null) {
@@ -47,7 +51,7 @@ if (memberShipMap.get("id") != null) {
 		CookieUtil.makeCookie(request, response, "SaveId", id, 60 * 60 * 24);
 	}
 		
-
+	System.out.println("세션에 저장된어 있는지 main가지전 최종 확인" + session.getAttribute("USER_ID"));
 	response.sendRedirect("../main/main.do");
 
 } else {

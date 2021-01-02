@@ -31,8 +31,39 @@ public class Multi_boardDAO {
 		}
 	}
 	
-	// 게시물의 갯수를 카운트
-		public int getTotalRecordCountNotice(Map map) {
+	// 공지사항게시물의 갯수를 카운트
+	public int getTotalRecordCountNotice(Map map) {
+		// 게시물의 갯수는 최초 0으로 초기화
+		int totalCount = 0;
+		
+
+		try {
+			// 기본쿼리문(전체레코드를 대상으로 함)
+			String sql = "SELECT COUNT(*) FROM multi_board"
+					+ "  WHERE check_board = 'N'";
+
+			// JSP페이지에서 검색어를 입력한 경우 where절이 동적으로 추가된다.
+			if (map.get("Word") != null) {
+				sql += "   WHERE  " + map.get("Column") + " " + "  LIKE '%" + map.get("Word") + "%'";
+			}
+
+			System.out.println("query=" + sql);
+
+			// 쿼리 실행후 결과값 반환
+			psmt = con.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			rs.next();
+			totalCount = rs.getInt(1);
+		} catch (Exception e) {
+		}
+
+		System.out.println(totalCount);
+
+		return totalCount;
+	}
+	
+	// 공지사항게시물의 갯수를 카운트
+		public int getTotalRecordCountPhoto(Map map) {
 			// 게시물의 갯수는 최초 0으로 초기화
 			int totalCount = 0;
 			
@@ -40,7 +71,7 @@ public class Multi_boardDAO {
 			try {
 				// 기본쿼리문(전체레코드를 대상으로 함)
 				String sql = "SELECT COUNT(*) FROM multi_board"
-						+ "  WHERE check_board = 'N'";
+						+ "  WHERE check_board = 'P'";
 
 				// JSP페이지에서 검색어를 입력한 경우 where절이 동적으로 추가된다.
 				if (map.get("Word") != null) {
@@ -61,6 +92,68 @@ public class Multi_boardDAO {
 
 			return totalCount;
 		}
+	
+	// 공지사항게시물의 갯수를 카운트
+	public int getTotalRecordCountBoard(Map map) {
+		// 게시물의 갯수는 최초 0으로 초기화
+		int totalCount = 0;
+		
+
+		try {
+			// 기본쿼리문(전체레코드를 대상으로 함)
+			String sql = "SELECT COUNT(*) FROM multi_board"
+					+ "  WHERE check_board = 'B'";
+
+			// JSP페이지에서 검색어를 입력한 경우 where절이 동적으로 추가된다.
+			if (map.get("Word") != null) {
+				sql += "   WHERE  " + map.get("Column") + " " + "  LIKE '%" + map.get("Word") + "%'";
+			}
+
+			System.out.println("query=" + sql);
+
+			// 쿼리 실행후 결과값 반환
+			psmt = con.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			rs.next();
+			totalCount = rs.getInt(1);
+		} catch (Exception e) {
+		}
+
+		System.out.println(totalCount);
+
+		return totalCount;
+	}
+	
+	// 공지사항게시물의 갯수를 카운트
+	public int getTotalRecordCountData(Map map) {
+		// 게시물의 갯수는 최초 0으로 초기화
+		int totalCount = 0;
+		
+
+		try {
+			// 기본쿼리문(전체레코드를 대상으로 함)
+			String sql = "SELECT COUNT(*) FROM multi_board"
+					+ "  WHERE check_board = 'D'";
+
+			// JSP페이지에서 검색어를 입력한 경우 where절이 동적으로 추가된다.
+			if (map.get("Word") != null) {
+				sql += "   WHERE  " + map.get("Column") + " " + "  LIKE '%" + map.get("Word") + "%'";
+			}
+
+			System.out.println("query=" + sql);
+
+			// 쿼리 실행후 결과값 반환
+			psmt = con.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			rs.next();
+			totalCount = rs.getInt(1);
+		} catch (Exception e) {
+		}
+
+		System.out.println(totalCount);
+
+		return totalCount;
+	}
 		
 		public List<Multi_boardDTO> selectListPageNotice(Map map) {
 
@@ -160,7 +253,9 @@ public class Multi_boardDAO {
 
 			// 쿼리문이 아래와 같이 페이지처리 쿼리문으로 변경됨.
 			String sql = "  " 
-					+ "     SELECT * FROM multi_board "
+					+ "     SELECT * FROM multi_board M "
+				    + "     INNER JOIN membership B   "
+				    + "  	ON M.id=B.id   "
 					+ "		WHERE check_board = 'B' ";
 
 			if (map.get("Word") != null) {
@@ -182,14 +277,127 @@ public class Multi_boardDAO {
 				while (rs.next()) {
 					Multi_boardDTO dto = new Multi_boardDTO();
 
-					dto.setNum(rs.getString(1));
-					dto.setId(rs.getString(2));
-					dto.setTitle(rs.getString(3));
-					dto.setContent(rs.getString(4));
-					dto.setPostdate(rs.getDate(5));
-					dto.setFile(rs.getString(6));
-					dto.setVisitcount(rs.getInt(7));
-					dto.setCheck_board(rs.getString(8));
+					dto.setId(rs.getString("id"));
+					dto.setName(rs.getString("NAME"));
+					dto.setEmail(rs.getString("email"));
+					dto.setNum(rs.getString("num"));
+					dto.setTitle(rs.getString("title"));
+					dto.setContent(rs.getString("content"));
+					dto.setPostdate(rs.getDate("postdate"));
+					dto.setFile(rs.getString("FILE"));
+					dto.setVisitcount(rs.getInt("visitcount"));
+					dto.setCheck_board(rs.getString("check_board"));
+					dto.setBoard_name(rs.getString("board_name"));
+
+					bbs.add(dto);
+				}
+
+			} catch (Exception e) {
+				System.out.println("update중 예외발생");
+				e.printStackTrace();
+			}
+
+			return bbs;
+
+		}
+		
+		public List<Multi_boardDTO> selectListPageData(Map map) {
+
+			List<Multi_boardDTO> bbs = new Vector<Multi_boardDTO>();
+
+			// 쿼리문이 아래와 같이 페이지처리 쿼리문으로 변경됨.
+			String sql = "  " 
+					+ "     SELECT * FROM multi_board M "
+				    + "     INNER JOIN membership B   "
+				    + "  	ON M.id=B.id   "
+					+ "		WHERE check_board = 'D' ";
+
+			if (map.get("Word") != null) {
+				sql += " WHERE  " + map.get("Column") + " " + " LIKE '%" + map.get("Word") + "%' ";
+			}
+			sql += " " + "       ORDER BY num DESC LIMIT ?, ? ";
+			System.out.println("쿼리문 : " + sql);
+
+			try {
+
+				psmt = con.prepareStatement(sql);
+
+				// JSP에서 계산한 페이지 범위값을 이용해 인파라미터를 설정함.
+				psmt.setInt(1, Integer.parseInt(map.get("start").toString()));
+				psmt.setInt(2, Integer.parseInt(map.get("end").toString()));
+
+				rs = psmt.executeQuery();
+
+				while (rs.next()) {
+					Multi_boardDTO dto = new Multi_boardDTO();
+
+					dto.setId(rs.getString("id"));
+					dto.setName(rs.getString("NAME"));
+					dto.setEmail(rs.getString("email"));
+					dto.setNum(rs.getString("num"));
+					dto.setTitle(rs.getString("title"));
+					dto.setContent(rs.getString("content"));
+					dto.setPostdate(rs.getDate("postdate"));
+					dto.setFile(rs.getString("FILE"));
+					dto.setFile_path(rs.getString("file_path"));
+					dto.setVisitcount(rs.getInt("visitcount"));
+					dto.setCheck_board(rs.getString("check_board"));
+					dto.setBoard_name(rs.getString("board_name"));
+
+					bbs.add(dto);
+				}
+
+			} catch (Exception e) {
+				System.out.println("update중 예외발생");
+				e.printStackTrace();
+			}
+
+			return bbs;
+
+		}
+		
+		public List<Multi_boardDTO> selectListPagePhoto(Map map) {
+
+			List<Multi_boardDTO> bbs = new Vector<Multi_boardDTO>();
+
+			// 쿼리문이 아래와 같이 페이지처리 쿼리문으로 변경됨.
+			String sql = "  " 
+					+ "     SELECT * FROM multi_board M "
+				    + "     INNER JOIN membership B   "
+				    + "  	ON M.id=B.id   "
+					+ "		WHERE check_board = 'P' ";
+
+			if (map.get("Word") != null) {
+				sql += " WHERE  " + map.get("Column") + " " + " LIKE '%" + map.get("Word") + "%' ";
+			}
+			sql += " " + "       ORDER BY num DESC LIMIT ?, ? ";
+			System.out.println("쿼리문 : " + sql);
+
+			try {
+
+				psmt = con.prepareStatement(sql);
+
+				// JSP에서 계산한 페이지 범위값을 이용해 인파라미터를 설정함.
+				psmt.setInt(1, Integer.parseInt(map.get("start").toString()));
+				psmt.setInt(2, Integer.parseInt(map.get("end").toString()));
+
+				rs = psmt.executeQuery();
+
+				while (rs.next()) {
+					Multi_boardDTO dto = new Multi_boardDTO();
+
+					dto.setId(rs.getString("id"));
+					dto.setName(rs.getString("NAME"));
+					dto.setEmail(rs.getString("email"));
+					dto.setNum(rs.getString("num"));
+					dto.setTitle(rs.getString("title"));
+					dto.setContent(rs.getString("content"));
+					dto.setPostdate(rs.getDate("postdate"));
+					dto.setFile(rs.getString("FILE"));
+					dto.setVisitcount(rs.getInt("visitcount"));
+					dto.setCheck_board(rs.getString("check_board"));
+					dto.setBoard_name(rs.getString("board_name"));
+					dto.setFile_path(rs.getString("file_path"));
 
 					bbs.add(dto);
 				}
@@ -349,7 +557,7 @@ public class Multi_boardDAO {
 			//게시판, 회원테이블을 조인하여 이름까지 가져와서 조회
 			String query = "" 
 					+ "SELECT  "
-				    + "	  	num, title, content, B.id, postdate, visitcount, name, email, file  "
+				    + "	  	num, title, content, B.id, postdate, visitcount, name, email, file, board_name, board_email, file_path  "
 				    + "   FROM membership M INNER JOIN multi_board B   "
 				    + "  	ON M.id=B.id   "
 				    + "   WHERE num=?   ";
@@ -366,12 +574,15 @@ public class Multi_boardDAO {
 					dto.setPostdate(rs.getDate("postdate"));
 					dto.setId(rs.getString("id"));
 					dto.setVisitcount(rs.getInt(6));
+					dto.setBoard_email(rs.getString("board_email"));
+					dto.setBoard_name(rs.getString("board_name"));
 					/*
 					member테이블과 join하여 얻어온 name을 DTO에 추가함
 					*/
-					dto.setName(rs.getString(7));
-					dto.setEmail(rs.getString(8));
-					dto.setFile(rs.getString(9));
+					dto.setName(rs.getString("name"));
+					dto.setEmail(rs.getString("email"));
+					dto.setFile(rs.getString("file"));
+					dto.setFile_path(rs.getString("file_path"));
 				}
 			}catch (Exception e) {
 				System.out.println("상세보기시 예외발생");
@@ -394,6 +605,75 @@ public class Multi_boardDAO {
 				psmt.setString(2, dto.getTitle());
 				psmt.setString(3, dto.getContent());
 				psmt.setString(4, dto.getFile());
+
+				affected = psmt.executeUpdate();
+				System.out.println(affected);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return affected;
+		}
+		
+		public int insertPhoto(Multi_boardDTO dto) {
+			int affected = 0;
+			
+			System.out.println(dto.getFile());
+			try {
+				String sql = "INSERT INTO multi_board ( " 
+						+ "  id, title, content, file, file_path, check_board)  "
+						+ "  VALUES (?, ?, ?, ?, ?, 'P')";
+				psmt = con.prepareStatement(sql);
+				psmt.setString(1, dto.getId());
+				psmt.setString(2, dto.getTitle());
+				psmt.setString(3, dto.getContent());
+				psmt.setString(4, dto.getFile());
+				psmt.setString(5, dto.getFile_path());
+
+				affected = psmt.executeUpdate();
+				System.out.println(affected);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return affected;
+		}
+		
+		public int insertData(Multi_boardDTO dto) {
+			int affected = 0;
+			
+			System.out.println(dto.getFile());
+			try {
+				String sql = "INSERT INTO multi_board ( " 
+						+ "  id, title, content, file, file_path, check_board)  "
+						+ "  VALUES (?, ?, ?, ?, ?, 'D')";
+				psmt = con.prepareStatement(sql);
+				psmt.setString(1, dto.getId());
+				psmt.setString(2, dto.getTitle());
+				psmt.setString(3, dto.getContent());
+				psmt.setString(4, dto.getFile());
+				psmt.setString(5, dto.getFile_path());
+
+				affected = psmt.executeUpdate();
+				System.out.println(affected);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return affected;
+		}
+		
+		public int insertBoard(Multi_boardDTO dto) {
+			int affected = 0;
+			
+			System.out.println(dto.getFile());
+			try {
+				String sql = "INSERT INTO multi_board ( " 
+						+ "  id, board_name, board_email, title, content, check_board)  "
+						+ "  VALUES (?, ?, ?, ?, ?, 'B')";
+				psmt = con.prepareStatement(sql);
+				psmt.setString(1, dto.getId());
+				psmt.setString(2, dto.getBoard_name());
+				psmt.setString(3, dto.getBoard_email());
+				psmt.setString(4, dto.getTitle());
+				psmt.setString(5, dto.getContent());
 
 				affected = psmt.executeUpdate();
 				System.out.println(affected);
@@ -432,6 +712,66 @@ public class Multi_boardDAO {
 				psmt.setString(2, dto.getContent());
 				psmt.setString(3, dto.getFile());
 				psmt.setString(4, dto.getNum());
+
+				affected = psmt.executeUpdate();
+
+			} catch (Exception e) {
+				System.out.println("update중 예외발생");
+				e.printStackTrace();
+			}
+
+			return affected;
+		}
+		
+		public int Boardupdate(Multi_boardDTO dto) {
+			int affected = 0;
+
+			try {
+				String query = "UPDATE multi_board SET  " 
+						+ "  title=?, content=?, board_name=?, board_email=?"
+						+ "  WHERE num=?";
+				
+				System.out.println("num : " + dto.getNum());
+				System.out.println("name : " + dto.getBoard_name());
+				System.out.println("title : " + dto.getTitle());
+				System.out.println("Content : " + dto.getContent());
+				
+				psmt = con.prepareStatement(query);
+				psmt.setString(1, dto.getTitle());
+				psmt.setString(2, dto.getContent());
+				psmt.setString(3, dto.getBoard_name());
+				psmt.setString(4, dto.getBoard_email());
+				psmt.setString(5, dto.getNum());
+
+				affected = psmt.executeUpdate();
+
+			} catch (Exception e) {
+				System.out.println("update중 예외발생");
+				e.printStackTrace();
+			}
+
+			return affected;
+		}
+		
+		public int Photoupdate(Multi_boardDTO dto) {
+			int affected = 0;
+
+			try {
+				String query = "UPDATE multi_board SET  " 
+						+ "  title=?, content=?, file=?, file_path=?  "
+						+ "  WHERE num=?";
+				
+				System.out.println("num : " + dto.getNum());
+				System.out.println("file : " + dto.getFile());
+				System.out.println("title : " + dto.getTitle());
+				System.out.println("Content : " + dto.getContent());
+				
+				psmt = con.prepareStatement(query);
+				psmt.setString(1, dto.getTitle());
+				psmt.setString(2, dto.getContent());
+				psmt.setString(3, dto.getFile());
+				psmt.setString(4, dto.getFile_path());
+				psmt.setString(5, dto.getNum());
 
 				affected = psmt.executeUpdate();
 

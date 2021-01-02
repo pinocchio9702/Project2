@@ -16,77 +16,69 @@ import model.Multi_boardDAO;
 import model.Multi_boardDTO;
 import util.FileUtil;
 
-@WebServlet("/admin/noticeWrite")
-public class NoticeWrite extends HttpServlet{
+@WebServlet("/controller/PhotoWrite.do")
+public class PhotoWrite extends HttpServlet{
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
-
+		
+		System.out.println("여기로 와야되는데..?");
 		ServletContext application = this.getServletContext();
 		// web.xml에 저장된 컨텍스트 초기화 파라미터 가져옴
 		String drv = application.getInitParameter("MariaJDBCDriver");
 		String url = application.getInitParameter("MariaConnectURL");
 		String mid = application.getInitParameter("MariaUser");
 		String mpw = application.getInitParameter("MariaPass");
-		HttpSession session = req.getSession(true);
+		
 		
 		//request객체와 물리적경로를 매개변수로 upload()를 호출한다.
-		MultipartRequest mr = FileUtil.upload(req, req.getServletContext().getRealPath("images/upload"));
+		MultipartRequest mr = FileUtil.upload(req, req.getServletContext().getRealPath("upload"));
 		
+		System.out.println(mr);
 		
 		int sucOrFail;
 		
 		if(mr !=null) {
-			/*
-			파일업로드가 완료되면 나머지 폼값을 받기 위해 mr참조변수를 이용한다.
-			*/
-			
+			HttpSession session = req.getSession(true);
+
 			String title = mr.getParameter("title");
 			String content = mr.getParameter("content");
-			//서버에 저장된 실제파일명을 가져온다.
-			String attachedfile = 
-			mr.getFilesystemName("attachedfile");
+			String file = mr.getFilesystemName("file");
+			String file_path = "/Project2/upload/"+file;
 			
-			System.out.println(title);
-			System.out.println(content);
-			System.out.println(attachedfile);
-			System.out.println(session.getAttribute("USER_ID").toString());
+			System.out.println("파라미터로 넘어온 제목 : "+ title);
+			System.out.println("파라미터로 넘어온 내용  : " +content);
+			System.out.println("파라미터로 넘어온 파일명 : " +  file);
+			System.out.println("파일 경로 : " + file_path);
+			System.out.println("세션에 존재하는 아이디 확인  : " + session.getAttribute("USER_ID").toString());
 			
 			
-			//DTO객체에 위에 폼값을 저장한다.
+
 			Multi_boardDTO dto = new Multi_boardDTO();
-			dto.setFile(attachedfile);
-			dto.setContent(content);
-			dto.setTitle(title);
-			
 			dto.setId(session.getAttribute("USER_ID").toString());
+			dto.setTitle(title);
+			dto.setContent(content);
+			dto.setFile(file);
+			dto.setFile_path(file_path);
 			
-			//DAO객체 생성 및 연결...insert처리
+			
 			Multi_boardDAO dao = new Multi_boardDAO(drv, url, mid, mpw);
 			
-			//파일 업로드 성공 및 insert성공시...
-			sucOrFail = dao.insertNotice(dto);
-			/*
-			페이지 처리를 위한 100개 데이터 입력
+			sucOrFail = dao.insertPhoto(dto);
 			
-			sucOrFail = 1;
-			for(int i = 1; i <=100; i++ ) {
-				dto.setTitle("자료실" + i + "번째 포스팅");
-				dao.insert(dto);
-			}
-			*/
 			dao.close();
 		}else {
 			//mr객체가 생성되지 않은 경우, 즉 파일 업로드 실패시...
 			sucOrFail = -1;
 		}
+		
 		if(sucOrFail ==1) {
-			resp.sendRedirect("noticeList");
+			req.getRequestDispatcher("../space/sub04_list.jsp").forward(req, resp);
 		}
 		else {
-			req.getRequestDispatcher("../admin/noticeWrite.jsp").forward(req, resp);
+			req.getRequestDispatcher("../space/sub04_Write.jsp").forward(req, resp);
 		}
 		
-		//req.getRequestDispatcher("noticeList").forward(req, resp);
+		
 	}
 }

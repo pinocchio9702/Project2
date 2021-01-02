@@ -9,9 +9,36 @@ public class Multi_boardDTO {
 	private String file;
 	private String file_path;
 	
+	//자유게시판의 이름을 받기 위한 변수
+	private String board_name;
+	private String board_email;
 	
 	
 	
+	/**
+	 * @return the board_email
+	 */
+	public String getBoard_email() {
+		return board_email;
+	}
+	/**
+	 * @param board_email the board_email to set
+	 */
+	public void setBoard_email(String board_email) {
+		this.board_email = board_email;
+	}
+	/**
+	 * @return the board_name
+	 */
+	public String getBoard_name() {
+		return board_name;
+	}
+	/**
+	 * @param board_name the board_name to set
+	 */
+	public void setBoard_name(String board_name) {
+		this.board_name = board_name;
+	}
 	/**
 	 * @return the file_path
 	 */

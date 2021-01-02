@@ -52,11 +52,6 @@
           <li class="breadcrumb-item active">Tables</li>
         </ol>
 		<script>
-			/*
-			연습문제] 글쓰기 폼에 빈값이 있는경우 서버로 전송되지
-				않드록 아래 validate()함수를 완성하시오.
-				모든 값이 입력되었다면 WriteProc.jsp로 submit되어야 한다.
-			*/
 			   function checkValidate(fm){
 			      if(fm.name.value==""){
 			         alert("작성자의 이름을 입력하세요."); 

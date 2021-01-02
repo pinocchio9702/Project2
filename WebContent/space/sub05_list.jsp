@@ -32,7 +32,7 @@ if(!(keyField == null || keyString.equals(""))) {
 	param.put("Word", keyString);
 }
 //테이블의 전체 레코드 수를 카운트
-int totalRecordCount = dao.getTotalRecordCountBoard(param);
+int totalRecordCount = dao.getTotalRecordCountData(param);
 //전체 레코드 수를 Map에 저장한다. 차후 View로 전달한다.
 param.put("totalCount", totalRecordCount);
 
@@ -60,16 +60,16 @@ param.put("nowPage", nowPage);
 param.put("totalCount", totalRecordCount);
 param.put("pageSize", pageSize);
 
-String pagingImg = PagingUtil.paginBS4(totalRecordCount, pageSize, blockPage, nowPage, "sub03_list.jsp?" + addQueryString);
+String pagingImg = PagingUtil.paginBS4(totalRecordCount, pageSize, blockPage, nowPage, "sub05_list.jsp?" + addQueryString);
 param.put("pagingImg", pagingImg);
 
-List<Multi_boardDTO> listsBoard = dao.selectListPageBoard(param); //페이지 처리 o
+List<Multi_boardDTO> listsData = dao.selectListPageData(param); //페이지 처리 o
 
 //DB연결을 헤제하는 것이 아니라 커넥션풀에 개체를 반납한다.
 dao.close();
 
 //데이터를 request영역에 저장한다.
-request.setAttribute("listsBoard", listsBoard);
+request.setAttribute("listsData", listsData);
 request.setAttribute("map", param);
 
 %>
@@ -91,8 +91,8 @@ request.setAttribute("map", param);
 			</div>
 			<div class="right_contents">
 				<div class="top_title">
-					<img src="../images/space/sub03_title.gif" alt="자유게시판" class="con_title" />
-					<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;자유게시판<p>
+					<img src="../images/space/sub05_title.gif" alt="자유게시판" class="con_title" />
+					<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;정보 자료실<p>
 				</div>
 				<div>
 
@@ -127,6 +127,7 @@ request.setAttribute("map", param);
 		<col width="120px"/>
 		<col width="120px"/>
 		<col width="80px"/>
+		<col width="80px"/>
 	</colgroup>
 	
 	<thead>
@@ -136,27 +137,35 @@ request.setAttribute("map", param);
 		<th class="text-center">작성자</th>
 		<th class="text-center">작성일</th>
 		<th class="text-center">조회수</th>
+		<th class="text-center">첨부파일</th>
 	</tr>
 	</thead>
 	
 	<tbody>
 	<c:choose>
-		<c:when test="${empty listsBoard }">
+		<c:when test="${empty listsData }">
 			<tr>
 				<td colspan="6" align="center" height="100">등록된 게시물이
 					없습니다.</td>
 			</tr>
 		</c:when>
 		<c:otherwise>
-			<c:forEach items="${listsBoard }" var="row" varStatus="loop">
+			<c:forEach items="${listsData }" var="row" varStatus="loop">
 	<!-- 리스트반복 -->
 	
 	<tr>
 		<td class="text-center">${map.totalCount - (((map.nowPage-1) * map.pageSize) + loop.index) }</td>
-		<td class="text-left"><a href="../space/sub03_view.jsp?num=${row.num }">${row.title }</a></td>
-		<td class="text-center">${row.board_name }</td>
+		<td class="text-left"><a href="../space/sub05_view.jsp?num=${row.num }">${row.title }</a></td>
+		<td class="text-center">${row.name }</td>
 		<td class="text-center">${row.postdate }</td>
 		<td class="text-center">${row.visitcount }</td>
+		<td class="text-center"><c:if
+			test="${not empty row.file }">
+			<a
+				href="../controller/DataDownload?file=${row.file }&dx=${row.id}">
+				<img src="../images/disk.png" width="20">
+			</a>
+		</c:if></td>
 	</tr>
 	</tbody>
 	</c:forEach>
@@ -169,7 +178,7 @@ request.setAttribute("map", param);
 	<!-- <button type="reset" class="btn">Reset</button> -->
 		
 	<button type="button" class="btn btn-default" 
-		onclick="location.href='../controller/BoardWrite';">글쓰기</button>
+		onclick="location.href='../space/sub05_write.jsp';">글쓰기</button>
 				
 	<!-- <button type="button" class="btn btn-primary">수정하기</button>
 	<button type="button" class="btn btn-success">삭제하기</button>

@@ -76,11 +76,11 @@
 				
 				<%
 					//혹시나 있을 세션을 지워줌(위에 top에 로그인 버튼을 위해 지우준다.)
-					session.removeAttribute("USER_ID");
-					session.removeAttribute("USER_PW");
+					//session.removeAttribute("USER_ID");
+					//session.removeAttribute("USER_PW");
 					
 					//처음 시작했을때를 위해 쿠키를 지워준다.
-					CookieUtil.makeCookie(request, response, "LoginId", "", 0);
+					//CookieUtil.makeCookie(request, response, "LoginId", "", 0);
 					
 					//리퀘스트 내장객체를 이용해서 생성된 쿠키를 가져온다.
 					Cookie[] cookies = request.getCookies();
@@ -101,8 +101,10 @@
 							}
 						}
 					}
+					
+					System.out.println("세션에 저장되어 있는 아이디" + session.getAttribute("USER_ID"));
 					//로그인 되었는지 확인하기 위해 세션영역에서 속성을 가져온다.
-					if(id.length() == 0){
+					if(id.length() == 0 || session.getAttribute("USER_ID")==null){
 				%>
 				
 					<script>
@@ -214,7 +216,7 @@
 			
 			</div>
 			<div class="main_con_right">
-				<p class="main_title"><img src="../images/main_title06.gif" alt="사진게시판 PHOTO BOARD" /><a href="/space/sub04.jsp"><img src="../images/more.gif" alt="more" class="more_btn" /></a></p>
+				<p class="main_title"><img src="../images/main_title06.gif" alt="사진게시판 PHOTO BOARD" /><a href="../space/sub04_list.jsp"><img src="../images/more.gif" alt="more" class="more_btn" /></a></p>
 				<ul class="main_photo_list">
 				<c:choose>
 				<c:when test="${empty photoBoard }">

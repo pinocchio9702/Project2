@@ -90,7 +90,7 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <tbody>
 
-					<input type="text" name="num" value="${dto.num }" />
+					<input type="hidden" name="num" value="${dto.num }" />
 					
 					<tr>
 						<th class="text-center align-middle">작성자</th>

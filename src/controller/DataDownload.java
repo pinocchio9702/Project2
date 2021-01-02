@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.Multi_boardDAO;
 import util.FileUtil;
-@WebServlet("/admin/Download")
-public class DownloadCtrl extends HttpServlet{
+@WebServlet("/controller/DataDownload")
+public class DataDownload extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
@@ -25,12 +25,13 @@ public class DownloadCtrl extends HttpServlet{
 		String mid = application.getInitParameter("MariaUser");
 		String mpw = application.getInitParameter("MariaPass");
 		
-		String filename = req.getParameter("filename");
+		String filename = req.getParameter("file");
+		System.out.println("파라미터로 넘어온 파일 이름 : " + filename);
 		/*
 		방법1 : 서버에 저장된 파일명 그대로 다운로드.
 			파일명을 변경할 필요가 없으므로 파일명에 관련된 파라미터는 1개만 있다.
 		*/
-		FileUtil.download(req, resp, "image/upload", filename);
+		FileUtil.download(req, resp, "/data", filename);
 
 	}
 }

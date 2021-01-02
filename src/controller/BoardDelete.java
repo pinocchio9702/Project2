@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -11,13 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.Multi_boardDAO;
-import util.FileUtil;
-@WebServlet("/admin/Download")
-public class DownloadCtrl extends HttpServlet{
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setCharacterEncoding("UTF-8");
 
+@WebServlet("/controller/BoardDelete.do")
+public class BoardDelete extends HttpServlet{
+	@Override
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String num = req.getParameter("num");
+		System.out.println("num : " + num);
+		
 		ServletContext application = this.getServletContext();
 		// web.xml에 저장된 컨텍스트 초기화 파라미터 가져옴
 		String drv = application.getInitParameter("MariaJDBCDriver");
@@ -25,12 +25,18 @@ public class DownloadCtrl extends HttpServlet{
 		String mid = application.getInitParameter("MariaUser");
 		String mpw = application.getInitParameter("MariaPass");
 		
-		String filename = req.getParameter("filename");
-		/*
-		방법1 : 서버에 저장된 파일명 그대로 다운로드.
-			파일명을 변경할 필요가 없으므로 파일명에 관련된 파라미터는 1개만 있다.
-		*/
-		FileUtil.download(req, resp, "image/upload", filename);
-
+		Multi_boardDAO dao = new Multi_boardDAO(drv, url, mid, mpw);
+		
+		int result = dao.delete(num);
+		
+		if(result == 1) {
+			
+			req.getRequestDispatcher("../space/sub03_list.jsp").forward(req, resp);			
+		}
+		else {
+			req.setAttribute("delete", "삭제 실패");
+			req.getRequestDispatcher("../space/sub03_View.jsp").forward(req, resp);
+		}
+		
 	}
 }
