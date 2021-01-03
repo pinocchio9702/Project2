@@ -190,7 +190,7 @@
 				<ul class="main_board_list">
 				<c:choose>
 				<c:when test="${empty listsBoard }">
-					<li><p><a href="">공지사항이 없습니다.</a></p></li>
+					<li><p><a href="">게시물이 없습니다.</a></p></li>
 				</c:when>
 				<c:otherwise>
 					<c:forEach items="${listsBoard }" var="row" varStatus="loop">
@@ -227,7 +227,7 @@
 					<li>
 						<dl>
 							<dt><a href=""><img width="70" height="70" src="${row.file_path }" /></a></dt>
-							<dd><a href="">${row.title }</a></dd>
+							<li><p>${fn:substring(row.title,0,13) }</a></p></li>
 						</dl>
 					</li>
 					</c:forEach>

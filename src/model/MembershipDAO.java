@@ -263,6 +263,28 @@ public class MembershipDAO {
 		
 		return pw;
 	}
+	
+	
+	public String selectGrade(String id) {
+		String query = "SELECT grade FROM membership  "
+				+ "  WHERE id = ?";
+		String grade = "";
+		
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, id);
+			
+			rs = psmt.executeQuery();
+			rs.next();
+			grade = rs.getString(1);
+			
+			System.out.println(grade);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return grade;
+	}
 
 	public void close() {
 		try {

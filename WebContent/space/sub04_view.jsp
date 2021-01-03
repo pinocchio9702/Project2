@@ -135,9 +135,25 @@ dao.close();
 
 <div class="row text-center" style="">
 	<!-- 각종 버튼 부분 -->
-	
+	<%
+		/*
+		로그인이 완료된 상태에서만 수정/삭제 버튼을 보이게 하고,
+		또한 작성자에게만 노출되도록 한다. 작성자가 아니라면
+		버튼은 숨기처된다.
+		*/
+		if(session.getAttribute("USER_ID") != null && 
+			session.getAttribute("USER_ID").toString().equals(dto.getId())){
+	%>
 	<button type="button" class="btn btn-primary"  onclick="location.href='../controller/PhotoEdit.do?num=<%=dto.getNum()%>';">수정하기</button>
 	<button type="button" class="btn btn-success" onclick="location.href='../controller/PhotoDelete.do?num=<%=dto.getNum()%>';">삭제하기</button>	
+	
+	
+	<%
+		}
+	%>
+	
+	
+	
 	<button type="button" class="btn btn-warning" 
 		onclick="location.href='../space/sub04_list.jsp';">리스트보기</button>
 </div>

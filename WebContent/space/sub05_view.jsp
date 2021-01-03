@@ -92,7 +92,7 @@ dao.close();
 			<%if(dto.getBoard_email() == null){ %>
 				<%=dto.getEmail() %>
 			<%}else{ %>
-				<%=dto.getBoard_name() %>
+				<%=dto.getBoard_email() %>
 			<%} %>
 		</td>
 		<th class="text-center" 
@@ -117,7 +117,7 @@ dao.close();
 	</tr>
 	<tr>
 		<th class="text-center" 
-			style="vertical-align:middle;">제목</th>
+			style="vertical-align:middle;">첨부파일</th>
 		<td colspan="3">
 		<%if(dto.getFile() != null){ %>
 			<%=dto.getFile() %>
@@ -132,9 +132,23 @@ dao.close();
 
 <div class="row text-center" style="">
 	<!-- 각종 버튼 부분 -->
+	<%
+		/*
+		로그인이 완료된 상태에서만 수정/삭제 버튼을 보이게 하고,
+		또한 작성자에게만 노출되도록 한다. 작성자가 아니라면
+		버튼은 숨기처된다.
+		*/
+		if(session.getAttribute("USER_ID") != null && 
+			session.getAttribute("USER_ID").toString().equals(dto.getId())){
+	%>
 	
 	<button type="button" class="btn btn-primary"  onclick="location.href='../controller/DataEdit.do?num=<%=dto.getNum()%>';">수정하기</button>
 	<button type="button" class="btn btn-success" onclick="location.href='../controller/DataDelete.do?num=<%=dto.getNum()%>';">삭제하기</button>	
+	
+	<%
+		}	
+	%>
+
 	<button type="button" class="btn btn-warning" 
 		onclick="location.href='../space/sub05_list.jsp';">리스트보기</button>
 </div>
