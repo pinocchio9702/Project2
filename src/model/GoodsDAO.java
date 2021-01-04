@@ -27,7 +27,6 @@ public class GoodsDAO {
 		}
 	}
 	
-	// 공지사항게시물의 갯수를 카운트
 	public int getTotalRecordCountBoard(Map map) {
 		// 게시물의 갯수는 최초 0으로 초기화
 		int totalCount = 0;

@@ -119,7 +119,7 @@ request.setAttribute("map", param);
 							<c:forEach items="${goodsList }" var="row" varStatus="loop">
 								<tr>
 									<td><input type="checkbox" name="" value="" /></td>
-									<td><a href="market_view.jsp"><img width="100px" height="100px" src="${row.image_path }" /></a></td>
+									<td><a href="market_view.jsp?num=${row.num }&nowPage=${map.nowPage}"><img width="100px" height="100px" src="${row.image_path }" /></a></td>
 									<td class="t_left" style="font-size: 30px"><a href="market_view.jsp?num=${row.num }&nowPage=${map.nowPage}">${row.NAME }</a></td>
 									<td class="p_style" style="">${row.price }</td>
 									<td><input type="text" name="" value="1" class="n_box" /></td>

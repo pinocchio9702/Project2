@@ -47,11 +47,15 @@ dao.close();
 						<img height="400px" width="400px" src="<%=dto.getImage_path() %>" />
 						<p class="plus_btn"><a href=""><img src="../images/market/plus_btn.gif" /></a></p>
 					</div>
+					<form action="../market/basket.jsp" method="post"
+						name="insert">
 					<div class="market_right">
 						<p class="m_title"><%=dto.getNAME() %>
 						<p>- <%=dto.getExplan() %></p>
 						<ul class="m_list">
 							<li>
+							<input type="hid-den" value="${sessionScope.USER_ID }" name="id">
+							<input type="hid-den" value="${dto.num }" name="goods_num">
 								<dl>
 									<dt>가격</dt>
 									<dd class="p_style"><%=dto.getPrice() %></dd>
@@ -62,7 +66,7 @@ dao.close();
 								</dl>
 								<dl>
 									<dt>수량</dt>
-									<dd><input type="text" name="" value="1" class="n_box" /></dd>
+									<dd><input type="text" name="amount" value="1" class="n_box" /></dd>
 								</dl>
 								<dl style="border-bottom:0px;">
 									<dt>주문정보</dt>
@@ -71,7 +75,8 @@ dao.close();
 								<div style="clear:both;"></div>
 							</li>
 						</ul>
-						<p class="btn_box"><a href=""><img src="../images/market/m_btn01.gif" alt="바로구매" /></a>&nbsp;&nbsp;<a href="basket.jsp"><img src="../images/market/m_btn02.gif" alt="장바구니" /></a></p>
+						<p class="btn_box"><a href=""><img src="../images/market/m_btn01.gif" alt="바로구매" /></a>&nbsp;&nbsp;<a href="javascript:insert.submit()"><img src="../images/market/m_btn02.gif" alt="장바구니" /></a></p>
+						</form>
 					</div>
 				</div>
 				<img src="<%=dto.getImage_path() %>" />
