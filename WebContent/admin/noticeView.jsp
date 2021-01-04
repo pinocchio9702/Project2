@@ -118,7 +118,7 @@
           </div>
         </div>
 		<button type="button" class="btn btn-secondary" onclick="location.href='../admin/noticeEdit.do?num=${dto.num}';">수정하기</button>
-		<button type="button" class="btn btn-success" onclick="location.href='../admin/noticeDelete.do';">삭제하기</button>
+		<button type="button" class="btn btn-success" onclick="location.href='../admin/noticeDelete.do?num=${dto.num}';">삭제하기</button>
 		<button type="button" class="btn btn-warning"
 							onclick="location.href='../admin/noticeList';">리스트보기</button>			
         <p class="small text-center text-muted my-5">

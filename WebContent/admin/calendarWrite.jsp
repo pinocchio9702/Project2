@@ -4,15 +4,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
+  <link rel="stylesheet" href="../common/bootstrap3.5.1/css/bootstrap.css">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-
+  <link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <title>SB Admin - Tables</title>
 
   <!-- Custom fonts for this template-->
@@ -51,81 +54,106 @@
           </li>
           <li class="breadcrumb-item active">Tables</li>
         </ol>
+		<script>
+		$(function() {
+			$("#datepicker").datepicker({
+				"dateFormat" : "yy-mm-dd", //날짜형식
+				"showAnim" : "slideDown"
+			});
+			
+			var dateFormat = "mm/dd/yy", from = $("#date_from").datepicker({
+				defaultDate : "+1w",
+				changeMonth : true,
+				numberOfMonths : 3
+			}).on("change", function() {
+				to.datepicker("option", "minDate", getDate(this));
+			}), to = $("#date_to").datepicker({
+				defaultDate : "+1w",
+				changeMonth : true,
+				numberOfMonths : 3
+			}).on("change", function() {
+				from.datepicker("option", "maxDate", getDate(this));
+			});
 
+			function getDate(element) {
+				var date;
+				try {
+					date = $.datepicker.parseDate(dateFormat, element.value);
+				} catch (error) {
+					date = null;
+				}
+
+				return date;
+			}
+		});
+			   function checkValidate(fm){
+			      if(fm.name.value==""){
+			         alert("작성자의 이름을 입력하세요."); 
+			         fm.name.focus(); 
+			         return false; 
+			      }
+			      if(fm.pass.value==""){
+			         alert("비밀번호를 입력하세요."); 
+			         fm.pass.focus(); 
+			         return false; 
+			      }
+			      if(fm.title.value==""){
+			         alert("제목을 입력하세요."); 
+			         fm.title.focus(); 
+			         return false; 
+			      }
+			      if(fm.content.value==""){
+			         alert("내용을 입력하세요."); 
+			         fm.content.focus(); 
+			         return false;
+			      }
+			   }
+
+		</script>
         <!-- DataTables Example -->
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-table"></i>
-            	회원관리</div>
+            	일정 추가하기</div>
           <div class="card-body">
             <div class="table-responsive">
+            <div class="container">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                  <tr>
-                    <th>아이디</th>
-                    <th>이름</th>
-                    <th>비밀번호</th>
-                    <th>전화번호</th>
-                    <th>핸드폰 번호</th>
-                    <th>이메일</th>
-                    <th>주소</th>
-                    <th>이메일 수신 동의</th>
-                    <th>등급</th>
-                    <th>등급 관리</th>
-                  </tr>
-                </thead>
-                <tfoot>
-                  <tr>
-                    <th>아이디</th>
-                    <th>이름</th>
-                    <th>비밀번호</th>
-                    <th>전화번호</th>
-                    <th>핸드폰 번호</th>
-                    <th>이메일</th>
-                    <th>주소</th>
-                    <th>이메일 수신 동의</th>
-                    <th>등급</th>
-                    <th>등급 관리</th>
-                  </tr>
-                </tfoot>
+              <form name="writeFrm" method="post" action="../admin/calendarWrite.do"
+					onsubmit="return checkValidate(this);">
                 <tbody>
-				<c:choose>
-					<c:when test="${empty requestScope.memberlist }">
-						<tr>
-							<td colspan="10" align="center" height="100">등록된 게시물이
-								없습니다.</td>
-						</tr>
-					</c:when>
-					<c:otherwise>
-					<c:forEach items="${requestScope.memberlist }" var="row" varStatus="loop">
-	                  <tr>
-	                    <td>${row.id }</td>
-	                    <td>${row.name }</td>
-	                    <td>${row.password }</td>
-	                    <td>${row.telephone }</td>
-	                    <td>${row.phoneNumber }</td>
-	                    <td>${row.email }</td>
-	                    <td>${row.address }</td>
-	                    <td>${row.open_email }</td>
-	                    <td>${row.grade }</td>
-	                    <c:if test="${row.grade eq 'A' }">
-	                    	<td><button onclick="location='../admin/UserUpdate.do?name=${row.name }'" class="btn btn-primary btn-block">기본회원</button></td>
-	                    </c:if>
-	                    <c:if test="${row.grade eq 'E' }">
-	                    	<td><button onclick="location='../admin/UserUpdate.do?name=${row.name }'" class="btn btn-primary btn-block">기본회원</button></td>
-	                    </c:if>
-	                    <c:if test="${row.grade eq 'U' }">
-	                    	<td>기본회원</td>
-	                    </c:if>
-	                  </tr>
-		            </c:forEach>
-		            </c:otherwise>
-				</c:choose>
+				<tr>
+					<th class="text-center"
+						style="vertical-align:middle;">제목</th>
+					<td>
+						<input type="text" class="form-control" 
+							name="title" />
+					</td>
+				</tr>
+				<tr>
+					<th class="text-center"
+						style="vertical-align:middle;">내용</th>
+					<td>
+						<textarea rows="10" 
+							class="form-control" name="content"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<th class="text-center"
+						style="vertical-align:middle;">일정</th>
+					<td>
+						<input type="text" class="form-control" name="cal_date" id="datepicker"  />
+					</td>
+				</tr>
+				
                 </tbody>
               </table>
+              </div>
             </div>
           </div>
         </div>
+        <button type="submit" class="btn btn-danger">일정 등록하기</button>
+        <button type="button" class="btn btn-warning" onclick="location.href='../admin/calendarList.jsp';">리스트보기</button>
 
         <p class="small text-center text-muted my-5">
           <em>More table examples coming soon...</em>

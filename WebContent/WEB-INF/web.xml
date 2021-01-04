@@ -5,12 +5,12 @@
   	<!-- 차후 게시판에서 사용할 페이지 번호의 설정값 -->
 	<context-param><!-- 한 페이지에서 출력할 게시물의 갯수 -->
 		<param-name>PAGE_SIZE</param-name>
-		<param-value>2</param-value>
+		<param-value>5</param-value>
 	</context-param>
 
 	<context-param><!-- 한 블럭당 출력할 페이지 번호의 개수 -->
 		<param-name>BLOCK_PAGE</param-name>
-		<param-value>2</param-value>
+		<param-value>3</param-value>
 	</context-param>
   
   <context-param>

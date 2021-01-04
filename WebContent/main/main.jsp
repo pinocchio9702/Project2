@@ -4,6 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -17,6 +18,18 @@
 @import url("../css/sub.css");
 </style>
 </head>
+
+<c:if test="${requestScope.bluecleaning eq 'success' }">
+	<script type="text/javascript">
+		alert("견적 의뢰가 되었습니다.");
+	</script>
+</c:if>
+
+<c:if test="${requestScope.experience eq 'success' }">
+	<script type="text/javascript">
+		alert("체험학습이 신청되었습니다.");
+	</script>
+</c:if>
 <script>
 
 

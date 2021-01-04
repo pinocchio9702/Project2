@@ -60,7 +60,9 @@ public class SMTPAuth extends Authenticator{
 			
 			//받는 사람
 			Address toAddr = new InternetAddress(map.get("to"));
+			Address toAddr2 = new InternetAddress(map.get("to2"));
 			msg.addRecipient(Message.RecipientType.TO, toAddr);
+			msg.addRecipient(Message.RecipientType.TO, toAddr2);
 			
 			//메일내용
 			msg.setContent(map.get("content"), "text/html;charset=UTF-8");

@@ -1,8 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../include/global_head.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<c:if test="${empty sessionScope.USER_ID }">
+	<script type="text/javascript">
+		alert("로그인 후 접속해주세요");
+		location.href = "../main/main.do";
+	</script>
+</c:if>
 
+<c:if test="${requestScope.experience eq 'fail' }">
+	<script type="text/javascript">
+		alert("견적의뢰의 샐패했습니다.");
+	</script>
+</c:if>
  <body>
 	<center>
 	<div id="wrap">
@@ -44,6 +56,8 @@
 				<div style="text-align:left">
 					<img src="../images/market/sub05_img01.jpg" style="margin-bottom:30px;" />
 				</div>
+				<form action="../market/experience" method="post"
+					name="experience">
 				<table cellpadding="0" cellspacing="0" border="0" class="con_table" style="width:100%;">
 					<colgroup>
 						<col width="25%" />
@@ -52,16 +66,16 @@
 					<tbody>
 						<tr>
 							<th>고객명/회사명</th>
-							<td style="text-align:left;"><input type="text" name=""  value="" class="join_input" /></td>
+							<td style="text-align:left;"><input type="text" name="user"  value="" class="join_input" /></td>
 						</tr>
 						<tr>
 							<th>장애유무</th>
 							<td style="text-align:left;" style="padding:0px;">
 								<table cellpadding="0" cellspacing="0" border="0" style="width:100%;">
 									<tr>
-										<td style="border-bottom:0px;"><input type="radio" name=""  value="" /> 유&nbsp;&nbsp;&nbsp;<input type="radio" name=""  value="" /> 무</td>
+										<td style="border-bottom:0px;"><input type="radio" name="disability"  value="true" /> 유&nbsp;&nbsp;&nbsp;<input type="radio" name="disability"  value="false" /> 무</td>
 										<th style="border-bottom:0px;" width="100px">주요장애유형</th>
-										<td style="border-right:0px; border-bottom:0px;"><input type="text" name=""  value="" class="join_input" /></td>
+										<td style="border-right:0px; border-bottom:0px;"><input type="text" name="disability_type"  value="" class="join_input" /></td>
 									</tr>
 								</table>
 							</td>
@@ -71,24 +85,24 @@
 							<td style="text-align:left;" style="padding:0px;">
 								<table cellpadding="0" cellspacing="0" border="0" style="width:100%;">
 									<tr>
-										<td style="border-bottom:0px;"><input type="radio" name=""  value="" /> 유&nbsp;&nbsp;&nbsp;<input type="radio" name=""  value="" /> 무</td>
+										<td style="border-bottom:0px;"><input type="radio" name="assisting"  value="true" /> 유&nbsp;&nbsp;&nbsp;<input type="radio" name="assisting"  value="false" /> 무</td>
 										<th style="border-bottom:0px;" width="100px">보장구 명</th>
-										<td style="border-right:0px; border-bottom:0px;"><input type="text" name=""  value="" class="join_input" /></td>
+										<td style="border-right:0px; border-bottom:0px;"><input type="text" name="assisting_name"  value="" class="join_input" /></td>
 									</tr>
 								</table>
 							</td>
 						</tr>
 						<tr>
 							<th>연락처</th>
-							<td style="text-align:left;"><input type="text" name=""  value="" class="join_input" style="width:50px;" /> - <input type="text" name=""  value="" class="join_input" style="width:50px;" /> - <input type="text" name=""  value="" class="join_input" style="width:50px;" /></td>
+							<td style="text-align:left;"><input type="text" name="phone1"  value="" class="join_input" style="width:50px;" /> - <input type="text" name="phone2"  value="" class="join_input" style="width:50px;" /> - <input type="text" name="phone3"  value="" class="join_input" style="width:50px;" /></td>
 						</tr>
 						<tr>
 							<th>담당자 휴대전화</th>
-							<td style="text-align:left;"><input type="text" name=""  value="" class="join_input" style="width:50px;" /> - <input type="text" name=""  value="" class="join_input" style="width:50px;" /> - <input type="text" name=""  value="" class="join_input" style="width:50px;" /></td>
+							<td style="text-align:left;"><input type="text" name="mobile1"  value="" class="join_input" style="width:50px;" /> - <input type="text" name="mobile2"  value="" class="join_input" style="width:50px;" /> - <input type="text" name="mobile3"  value="" class="join_input" style="width:50px;" /></td>
 						</tr>
 						<tr>
 							<th>이메일</th>
-							<td style="text-align:left;"><input type="text" name=""  value="" class="join_input" style="width:100px;" /> @ <input type="text" name=""  value="" class="join_input" style="width:100px;" /></td>
+							<td style="text-align:left;"><input type="text" name="email1"  value="" class="join_input" style="width:100px;" /> @ <input type="text" name="email2"  value="" class="join_input" style="width:100px;" /></td>
 						</tr>
 						<tr>
 							<th>체험내용</th>
@@ -96,31 +110,32 @@
 								<table cellpadding="0" cellspacing="0" border="0" style="width:100%;">
 									<tr>
 										<td>케익체험</td>
-										<td style="border-right:0px;"><input type="text" name=""  value="" class="join_input" /></td>
+										<td style="border-right:0px;"><input type="text" name="cake"  value="" class="join_input" /></td>
 									</tr>
 									<tr>
 										<td style="border-bottom:0px;">쿠키체험</td>
-										<td style="border:0px;"><input type="text" name=""  value="" class="join_input" /></td>
+										<td style="border:0px;"><input type="text" name="cookie"  value="" class="join_input" /></td>
 									</tr>
 								</table>
 							</td>
 						</tr>
 						<tr>
 							<th>체험희망날짜</th>
-							<td style="text-align:left;"><input type="text" name=""  value="" class="join_input" /></td>
+							<td style="text-align:left;"><input type="text" name="experience_date"  value="" class="join_input" /></td>
 						</tr>
 						<tr>
 							<th>접수종류 구분</th>
-							<td style="text-align:left;"><input type="radio" name=""  value="" /> 예약신청
-&nbsp;&nbsp;&nbsp;<input type="radio" name=""  value="" /> 견적문의</td>
+							<td style="text-align:left;"><input type="radio" name="ask"  value="reservation" /> 예약신청
+&nbsp;&nbsp;&nbsp;<input type="radio" name="ask"  value="estimate" /> 견적문의</td>
 						</tr>
 						<tr>
 							<th>기타특이사항</th>
-							<td style="text-align:left;"><input type="text" name=""  value="" class="join_input" style="width:400px;" /></td>
+							<td style="text-align:left;"><input type="text" name="matters"  value="" class="join_input" style="width:400px;" /></td>
 						</tr>
 					</tbody>
 				</table>
-				<p style="text-align:center; margin-bottom:40px"><a href=""><img src="../images/btn01.gif" /></a>&nbsp;&nbsp;<a href="#"><img src="../images/btn02.gif" /></a></p>
+				<p style="text-align:center; margin-bottom:40px"><a href="javascript:experience.submit()"><img src="../images/btn01.gif" /></a>&nbsp;&nbsp;<a href="#"><img src="../images/btn02.gif" /></a></p>
+			</form>
 			</div>
 		</div>
 		<%@ include file="../include/quick.jsp" %>

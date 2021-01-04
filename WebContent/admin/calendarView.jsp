@@ -1,10 +1,31 @@
+<%@page import="model.CalendarDTO"%>
+<%@page import="model.CalendarDAO"%>
 <%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
+<%
 
+String drv = application.getInitParameter("MariaJDBCDriver");
+String url = application.getInitParameter("MariaConnectURL");
+String mid = application.getInitParameter("MariaUser");
+String mpw = application.getInitParameter("MariaPass");
+//파라미터로 전송된 게시물의 일련번호를 받음
+String num = request.getParameter("num");
+CalendarDAO dao = new CalendarDAO(drv, url, mid, mpw);
+//일련번에 해당하는 게시물을 DTO객체로 반환함.
+CalendarDTO dto = dao.selectView(num);
+
+System.out.println("dto 아이디 : " + dto.getId());
+System.out.println("dto 제목"+dto.getTitle());
+System.out.println("dto 내용 " + dto.getContent());
+System.out.println("dto 날자" + dto.getCal_date());
+System.out.println("dto 일련번호 : " + dto.getNum());
+
+dao.close();
+%>
 <head>
 
   <meta charset="utf-8">
@@ -56,77 +77,49 @@
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-table"></i>
-            	회원관리</div>
+            	일정 상세보기</div>
           <div class="card-body">
             <div class="table-responsive">
+            
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                  <tr>
-                    <th>아이디</th>
-                    <th>이름</th>
-                    <th>비밀번호</th>
-                    <th>전화번호</th>
-                    <th>핸드폰 번호</th>
-                    <th>이메일</th>
-                    <th>주소</th>
-                    <th>이메일 수신 동의</th>
-                    <th>등급</th>
-                    <th>등급 관리</th>
-                  </tr>
-                </thead>
-                <tfoot>
-                  <tr>
-                    <th>아이디</th>
-                    <th>이름</th>
-                    <th>비밀번호</th>
-                    <th>전화번호</th>
-                    <th>핸드폰 번호</th>
-                    <th>이메일</th>
-                    <th>주소</th>
-                    <th>이메일 수신 동의</th>
-                    <th>등급</th>
-                    <th>등급 관리</th>
-                  </tr>
-                </tfoot>
                 <tbody>
-				<c:choose>
-					<c:when test="${empty requestScope.memberlist }">
-						<tr>
-							<td colspan="10" align="center" height="100">등록된 게시물이
-								없습니다.</td>
-						</tr>
-					</c:when>
-					<c:otherwise>
-					<c:forEach items="${requestScope.memberlist }" var="row" varStatus="loop">
-	                  <tr>
-	                    <td>${row.id }</td>
-	                    <td>${row.name }</td>
-	                    <td>${row.password }</td>
-	                    <td>${row.telephone }</td>
-	                    <td>${row.phoneNumber }</td>
-	                    <td>${row.email }</td>
-	                    <td>${row.address }</td>
-	                    <td>${row.open_email }</td>
-	                    <td>${row.grade }</td>
-	                    <c:if test="${row.grade eq 'A' }">
-	                    	<td><button onclick="location='../admin/UserUpdate.do?name=${row.name }'" class="btn btn-primary btn-block">기본회원</button></td>
-	                    </c:if>
-	                    <c:if test="${row.grade eq 'E' }">
-	                    	<td><button onclick="location='../admin/UserUpdate.do?name=${row.name }'" class="btn btn-primary btn-block">기본회원</button></td>
-	                    </c:if>
-	                    <c:if test="${row.grade eq 'U' }">
-	                    	<td>기본회원</td>
-	                    </c:if>
-	                  </tr>
-		            </c:forEach>
-		            </c:otherwise>
-				</c:choose>
+					<tr>
+						<th class="text-center" 
+							style="vertical-align:middle;">작성자</th>
+						<td colspan="3">
+							<%=dto.getId() %>
+						</td>
+					</tr>
+					<tr>
+						<th class="text-center" 
+							style="vertical-align:middle;">제목</th>
+						<td colspan="3">
+							<%=dto.getTitle() %>
+						</td>
+					</tr>
+					<tr>
+						<th class="text-center" 
+							style="vertical-align:middle;">내용</th>
+						<td colspan="3">
+							<%=dto.getContent().replace("\r\n", "<br/>") %>
+						</td>
+					</tr>
+					<tr>
+						<th class="text-center" 
+							style="vertical-align:middle;">일정</th>
+						<td colspan="3">
+							<%=dto.getCal_date() %>
+						</td>
+					</tr>
                 </tbody>
               </table>
             </div>
           </div>
         </div>
-
+		<button type="button" class="btn btn-secondary" onclick="location.href='../admin/calendarEdit.do?num=<%=dto.getNum()%>';">수정하기</button>
+		<button type="button" class="btn btn-success" onclick="location.href='../admin/calendarDelete.do?num=<%=dto.getNum()%>';">삭제하기</button>
+		<button type="button" class="btn btn-warning"
+							onclick="location.href='../admin/calendarList.jsp';">리스트보기</button>			
         <p class="small text-center text-muted my-5">
           <em>More table examples coming soon...</em>
         </p>

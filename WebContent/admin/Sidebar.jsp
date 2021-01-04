@@ -29,9 +29,9 @@
     </a>
     <div class="dropdown-menu" aria-labelledby="pagesDropdown">
       <h6 class="dropdown-header">관리자</h6>
-      <a class="dropdown-item" href="login.html">로그인</a>
-      <a class="dropdown-item" href="register.html">관리자 등록</a>
-      <a class="dropdown-item" href="forgot-password.html">비밀번호 찾기</a>
+      <a class="dropdown-item" href="login.jsp">로그인</a>
+      <a class="dropdown-item" href="register.jsp">관리자 등록</a>
+      <a class="dropdown-item" href="forgot-password.jsp">비밀번호 찾기</a>
     </div>
   </li>
   <li class="nav-item dropdown" >
@@ -42,6 +42,9 @@
       <h6 class="dropdown-header">게시물 관리</h6>
       <a class="dropdown-item" href="../admin/memberList">회원관리</a>
       <a class="dropdown-item" href="../admin/noticeList">공지사항</a>
+      <a class="dropdown-item" href="../admin/calendarList.jsp">일정관리</a>
+      <a class="dropdown-item" href="../admin/cleaningList">블루크리닝</a>
+      <a class="dropdown-item" href="../admin/experienceList">체험학습신청 관리</a>
       <div class="dropdown-divider"></div>
 
     </div>

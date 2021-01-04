@@ -239,6 +239,28 @@ public class MembershipDAO {
 
 	}
 	
+	public String findEamil(String id) {
+		String query = "SELECT email FROM membership WHERE id=?";
+		String M_email = "";
+
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, id);
+
+			rs = psmt.executeQuery();
+			rs.next();
+			M_email = rs.getString("id");
+
+			System.out.println(M_email);
+
+		} catch (Exception e) {
+			// 예외가 발생한다면 확인이 불가능함으로 무조건 false를 반환한다.
+			e.printStackTrace();
+		}
+
+		return M_email;
+	}
+	
 	//비밀번호 찾기
 	public String findpw(String id, String name, String email) {
 		String query = "SELECT password FROM membership WHERE id=? AND name=? AND email=?";

@@ -56,72 +56,74 @@
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-table"></i>
-            	회원관리</div>
+            	공지사항</div>
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>아이디</th>
-                    <th>이름</th>
-                    <th>비밀번호</th>
-                    <th>전화번호</th>
-                    <th>핸드폰 번호</th>
+                    <th>고객명/회사명</th>
+                    <th>장애유무</th>
+                    <th>주요 장애 유형</th>
+                    <th>보장구 사용유무</th>
+                    <th>보장구 명</th>
+                    <th>연락처</th>
+                    <th>담당자 휴대전화</th>
                     <th>이메일</th>
-                    <th>주소</th>
-                    <th>이메일 수신 동의</th>
-                    <th>등급</th>
-                    <th>등급 관리</th>
+                    <th>케익체험</th>
+                    <th>쿠키체험</th>
+                    <th>체험희망 날짜</th>
+                    <th>접송종류 구분</th>
+                    <th>기타 특의 사항</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>아이디</th>
-                    <th>이름</th>
-                    <th>비밀번호</th>
-                    <th>전화번호</th>
-                    <th>핸드폰 번호</th>
+                   <th>고객명/회사명</th>
+                    <th>장애유무</th>
+                    <th>주요 장애 유형</th>
+                    <th>보장구 사용유무</th>
+                    <th>보장구 명</th>
+                    <th>연락처</th>
+                    <th>담당자 휴대전화</th>
                     <th>이메일</th>
-                    <th>주소</th>
-                    <th>이메일 수신 동의</th>
-                    <th>등급</th>
-                    <th>등급 관리</th>
+                    <th>케익체험</th>
+                    <th>쿠키체험</th>
+                    <th>체험희망 날짜</th>
+                    <th>접송종류 구분</th>
+                    <th>기타 특의 사항</th>
                   </tr>
                 </tfoot>
                 <tbody>
 				<c:choose>
-					<c:when test="${empty requestScope.memberlist }">
+					<c:when test="${empty requestScope.ExperienceList }">
 						<tr>
 							<td colspan="10" align="center" height="100">등록된 게시물이
 								없습니다.</td>
 						</tr>
 					</c:when>
 					<c:otherwise>
-					<c:forEach items="${requestScope.memberlist }" var="row" varStatus="loop">
+					<c:forEach items="${requestScope.ExperienceList }" var="row" varStatus="loop">
 	                  <tr>
-	                    <td>${row.id }</td>
-	                    <td>${row.name }</td>
-	                    <td>${row.password }</td>
-	                    <td>${row.telephone }</td>
-	                    <td>${row.phoneNumber }</td>
+	                    <td>${row.USER }</td>
+	                    <td>${row.disability }</td>
+	                    <td>${row.disability_type }</td>
+	                    <td>${row.assisting }</td>
+	                    <td>${row.assisting_name }</td>
+	                    <td>${row.phone }</td>
 	                    <td>${row.email }</td>
-	                    <td>${row.address }</td>
-	                    <td>${row.open_email }</td>
-	                    <td>${row.grade }</td>
-	                    <c:if test="${row.grade eq 'A' }">
-	                    	<td><button onclick="location='../admin/UserUpdate.do?name=${row.name }'" class="btn btn-primary btn-block">기본회원</button></td>
-	                    </c:if>
-	                    <c:if test="${row.grade eq 'E' }">
-	                    	<td><button onclick="location='../admin/UserUpdate.do?name=${row.name }'" class="btn btn-primary btn-block">기본회원</button></td>
-	                    </c:if>
-	                    <c:if test="${row.grade eq 'U' }">
-	                    	<td>기본회원</td>
-	                    </c:if>
+	                    <td>${row.mobile }</td>
+	                    <td>${row.cake }</td>
+	                    <td>${row.cookie }</td>
+	                    <td>${row.experience_date }</td>
+	                    <td>${row.ask }</td>
+	                    <td>${row.matters }</td>
 	                  </tr>
 		            </c:forEach>
 		            </c:otherwise>
 				</c:choose>
                 </tbody>
+
               </table>
             </div>
           </div>
