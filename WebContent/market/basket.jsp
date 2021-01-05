@@ -7,6 +7,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../include/global_head.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <c:if test="${empty sessionScope.USER_ID }">
 	<script type="text/javascript">
 		alert("로그인 후 접속해주세요");
@@ -14,7 +15,18 @@
 	</script>
 </c:if>
 
+<% 
+if(session.getAttribute("USER_ID") == null){
+%>
+	<script type="text/javascript">
+		alert("로그인 후 접속해주세요");
+		location.href = "../main/main.do";
+	</script>
+
 <%
+	return;
+}
+
 //web.xml에 저장된 컨텍스트 초기화 파라미터 가져옴
 String drv = application.getInitParameter("MariaJDBCDriver");
 String url = application.getInitParameter("MariaConnectURL");
@@ -35,6 +47,7 @@ int delivery = 0;
 
 for(BasketDTO dto : basketList){
 	sum += dto.getTotal();
+	System.out.println(dto.getGoods_num());
 }
 
 dao.close();
@@ -93,19 +106,24 @@ request.setAttribute("basketList", basketList);
 						</tr>
 					</c:when>
 					<c:otherwise>
+						<form action="../market/basketUpdate.do" method="post"
+							name="update">
 						<c:forEach items="${basketList }" var="row" varStatus="loop">
 						<tr>
+							<input type="hidden" name="goods_num" value="${row.goods_num}" />
+							<input type="hidden" name="id" value="${row.id}" />
 							<td><input type="checkbox" name="" value="" /></td>
 							<td><img width="100px" height="100px" src="${row.image_path }" /></td>
 							<td>${row.name }</td>
 							<td>${row.price }원</td>
 							<td><img src="../images/market/j_icon.gif" />&nbsp;${row.saved }</td>
-							<td><input type="text" name="" value="${row.amount }" class="basket_num" />&nbsp;<a href=""><img src="../images/market/m_btn.gif" /></a></td>
+							<td><input type="text" name="amount" value="${row.amount }" class="basket_num" />&nbsp;<a href="javascript:update.submit()"><img src="../images/market/m_btn.gif" /></a></td>
 							<td>무료배송</td>
 							<td>[조건]</td>
 							<td><span>${row.total }원<span></td>
 						</tr>
 						</c:forEach>
+						</form>
 					</c:otherwise>
 					</c:choose>
 					</tbody>

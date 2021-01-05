@@ -85,6 +85,46 @@ public class BasketDAO {
 
 	}
 	
+	public int insertBasket(BasketDTO dto) {
+		int affected = 0;
+		
+		try {
+			String sql = "INSERT INTO basket ( " 
+					+ "  goods_num, id, amount)  "
+					+ "  VALUES (?, ?, ?)";
+			psmt = con.prepareStatement(sql);
+			psmt.setInt(1, dto.getGoods_num());
+			psmt.setString(2, dto.getId());
+			psmt.setInt(3, dto.getAmount());
+
+
+			affected = psmt.executeUpdate();
+			System.out.println("insert을 실행한 결과 값 :"+affected);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return affected;
+	}
+	
+	public int basketUpdate(int amount, int goods_num, String id) {
+		int affected = 0;
+		
+		String sql = " UPDATE basket SET amount = ?  "
+				+ "  WHERE goods_num = ? AND id = ?  ";
+		try {
+			psmt = con.prepareStatement(sql);
+			psmt.setInt(1, amount);
+			psmt.setInt(2, goods_num);
+			psmt.setString(3, id);
+			
+			affected = psmt.executeUpdate();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return affected;
+				
+	}
+	
 	public void close() {
 		try {
 			// 연결을 해제하는 것이 아니고 풀에 다시 반납한다.

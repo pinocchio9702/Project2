@@ -6,7 +6,7 @@ public class BasketDTO {
 	private int amount; //수량
 	private int total; //총 가격 amount * price
 	private String image_path;
-	private String name;
+	private String name; //
 	private int saved; //적립금
 	private int price; //가격
 	

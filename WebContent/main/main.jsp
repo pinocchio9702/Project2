@@ -30,7 +30,17 @@
 		alert("체험학습이 신청되었습니다.");
 	</script>
 </c:if>
+
+<c:if test="${requestScope.Purchase eq 'true' }">
+	<script type="text/javascript">
+		alert("구매 확정 되었습니다.");
+	</script>
+</c:if>
+
+
 <script>
+
+
 
 
 	$(function() {

@@ -45,6 +45,7 @@
       <a class="dropdown-item" href="../admin/calendarList.jsp">일정관리</a>
       <a class="dropdown-item" href="../admin/cleaningList">블루크리닝</a>
       <a class="dropdown-item" href="../admin/experienceList">체험학습신청 관리</a>
+      <a class="dropdown-item" href="../admin/purchaseList">구매서</a>
       <div class="dropdown-divider"></div>
 
     </div>

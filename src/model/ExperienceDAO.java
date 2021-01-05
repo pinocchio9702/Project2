@@ -90,10 +90,10 @@ public class ExperienceDAO {
 				dto.setEmail(rs.getString(9));
 				dto.setMobile(rs.getString(10));
 				dto.setCake(rs.getString(11));
-				dto.setCookie(rs.getString(11));
-				dto.setExperience_date(rs.getString(11));
-				dto.setAsk(rs.getString(11));
-				dto.setMatters(rs.getString(11));
+				dto.setCookie(rs.getString(12));
+				dto.setExperience_date(rs.getString(13));
+				dto.setAsk(rs.getString(14));
+				dto.setMatters(rs.getString(15));
 
 				bbs.add(dto);
 			}

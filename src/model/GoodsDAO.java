@@ -62,7 +62,7 @@ public class GoodsDAO {
 
 		// 쿼리문이 아래와 같이 페이지처리 쿼리문으로 변경됨.
 		String sql = "  " 
-				+ "     SELECT * FROM goods ";
+				+ "     SELECT * ,FORMAT(price, 0) FROM goods ";
 
 		if (map.get("Word") != null) {
 			sql += " WHERE  " + map.get("Column") + " " + " LIKE '%" + map.get("Word") + "%' ";
@@ -87,7 +87,7 @@ public class GoodsDAO {
 				dto.setNAME(rs.getString(2));
 				dto.setImage(rs.getString(3));
 				dto.setImage_path(rs.getString(4));
-				dto.setPrice(rs.getInt(5));
+				dto.setPrice(rs.getString(8));
 				dto.setSaved(rs.getInt(6));
 				dto.setExplan(rs.getString(7));
 
@@ -106,7 +106,7 @@ public class GoodsDAO {
 	public GoodsDTO selectView(String num) {
 		GoodsDTO dto = new GoodsDTO();
 		
-		String query = "  SELECT * FROM goods  "
+		String query = "  SELECT * ,FORMAT(price, 0) FROM goods  "
 				+ "  WHERE num = ?";
 		
 		System.out.println("쿼리 문 : " + query);
@@ -120,7 +120,7 @@ public class GoodsDAO {
 				dto.setNAME(rs.getString(2));
 				dto.setImage(rs.getString(3));
 				dto.setImage_path(rs.getString(4));
-				dto.setPrice(rs.getInt(5));
+				dto.setPrice(rs.getString(8));
 				dto.setSaved(rs.getInt(6));
 				dto.setExplan(rs.getString(7));
 				

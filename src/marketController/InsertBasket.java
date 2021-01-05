@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.BasketDAO;
+import model.BasketDTO;
+
 @WebServlet("/market/insertBasket.do")
 public class InsertBasket extends HttpServlet{
 	@Override
@@ -25,15 +28,31 @@ public class InsertBasket extends HttpServlet{
 
 		HttpSession session = req.getSession(true);
 		
-		String amount = req.getParameter("amount");
-		String goods_num = req.getParameter("goods_num");
-		//String id = req.getParameter("id");
+		int amount = Integer.parseInt(req.getParameter("amount"));
+		int goods_num = Integer.parseInt(req.getParameter("goods_num"));
+		String id = req.getParameter("id");
 		
 		System.out.println("insert로 파라미터로 넘어오 수량 : " + amount);
 		System.out.println("insert로 파라미터로 넘어오 일련번호 : " + goods_num);
-		//System.out.println("insert로 파라미터로 넘어오 아이디 : " + id);
+		System.out.println("insert로 파라미터로 넘어오 아이디 : " + id);
 		
-		req.getRequestDispatcher("../market/basket.jsp").forward(req, resp);
+		BasketDTO dto = new BasketDTO();
+		dto.setGoods_num(goods_num);
+		dto.setAmount(amount);
+		dto.setId(id);
+		
+		BasketDAO dao = new BasketDAO(drv, url, mid, mpw);
+		
+		int result = dao.insertBasket(dto);
+		
+		if(result == 1) {
+			req.setAttribute("insert", "true");
+			req.getRequestDispatcher("../market/sub01.jsp").forward(req, resp);
+		}else {
+			req.setAttribute("insert", "false");
+			req.getRequestDispatcher("../market/sub01.jsp").forward(req, resp);
+		}
+		
 		
 		
 		

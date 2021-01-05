@@ -75,6 +75,18 @@ request.setAttribute("map", param);
 
 %>
 
+<c:if test="${requestScope.insert eq 'fail' }">
+	<script type="text/javascript">
+		alert("장바구니 추가에 실패했습니다. 로그인 후 사용해 주세요");
+	</script>
+</c:if>
+
+<c:if test="${requestScope.insert eq 'true' }">
+	<script type="text/javascript">
+		alert("장바구니 추가에 성공했습니다.");
+	</script>
+</c:if>
+
  <body>
 	<center>
 	<div id="wrap">
@@ -123,7 +135,7 @@ request.setAttribute("map", param);
 									<td class="t_left" style="font-size: 30px"><a href="market_view.jsp?num=${row.num }&nowPage=${map.nowPage}">${row.NAME }</a></td>
 									<td class="p_style" style="">${row.price }</td>
 									<td><input type="text" name="" value="1" class="n_box" /></td>
-									<td><a href=""><img src="../images/market/btn01.gif" style="margin-bottom:5px;" /></a><br /><a href="basket.jsp"><img src="../images/market/btn02.gif" /></a></td>
+									<td><a href=""><img src="../images/market/btn01.gif" style="margin-bottom:5px;" /></a><br /><a href="../market/basket.jsp"><img src="../images/market/btn02.gif" /></a></td>
 								</tr>
 							</c:forEach>
 						</c:otherwise>

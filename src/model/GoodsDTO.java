@@ -5,7 +5,7 @@ public class GoodsDTO {
 	private String NAME; 
 	private String image; 
 	private String image_path;
-	private int price;
+	private String price;
 	private int saved;
 	private String explan;
 	/**
@@ -59,13 +59,13 @@ public class GoodsDTO {
 	/**
 	 * @return the price
 	 */
-	public int getPrice() {
+	public String getPrice() {
 		return price;
 	}
 	/**
 	 * @param price the price to set
 	 */
-	public void setPrice(int price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 	/**
